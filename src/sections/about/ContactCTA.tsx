@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { useNavigate } from 'react-router'
 import SplitText from '@/components/SplitText'
 import MagneticButton from '@/components/MagneticButton'
 
@@ -9,6 +10,7 @@ gsap.registerPlugin(ScrollTrigger)
 export default function ContactCTA() {
   const sectionRef = useRef<HTMLElement>(null)
   const btnRef = useRef<HTMLDivElement>(null)
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (!sectionRef.current) return
@@ -25,6 +27,15 @@ export default function ContactCTA() {
 
     return () => ctx.revert()
   }, [])
+
+  const handleClick = (e: React.MouseEvent) => {
+    e.preventDefault()
+    navigate('/#contact')
+    setTimeout(() => {
+      const el = document.getElementById('contact')
+      if (el) el.scrollIntoView({ behavior: 'smooth' })
+    }, 100)
+  }
 
   return (
     <section
@@ -60,10 +71,7 @@ export default function ContactCTA() {
           <MagneticButton strength={0.4}>
             <a
               href="/#contact"
-              onClick={(e) => {
-                e.preventDefault()
-                window.location.href = '/#contact'
-              }}
+              onClick={handleClick}
               className="text-cta inline-block px-12 py-5 transition-all duration-500"
               style={{
                 border: '1px solid rgba(255,255,255,0.4)',

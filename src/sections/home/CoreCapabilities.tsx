@@ -9,22 +9,22 @@ const capabilities = [
   {
     index: '01',
     title: 'Strategic Business Process Optimization',
-    body: 'We identify high-cost, repetitive workflows and replace them with intelligent, automated systems.',
+    body: 'We map every operational layer of your media organization — from editorial production to distribution logistics — identifying friction points where manual processes drain margin and slow decision-making. Our recommendations are grounded in four decades of C-suite media leadership, not theoretical frameworks.',
   },
   {
     index: '02',
     title: 'Intelligent Workflow Orchestration',
-    body: 'Private AI frameworks that streamline content production and reduce time-to-market.',
+    body: 'Media enterprises run on complex, interdependent workflows. We design AI-native orchestration systems that coordinate content production, cross-platform adaptation, and resource allocation — reducing time-to-market by 40-60% while preserving editorial quality and creative control.',
   },
   {
     index: '03',
     title: 'Secure Corporate Intelligence',
-    body: 'Turn decades of internal data into real-time insights—without exposing it to public AI systems.',
+    body: 'Your archives, subscriber data, and competitive research represent decades of proprietary value. We architect private intelligence systems that transform this data into real-time strategic insights — all while ensuring zero exposure to public AI platforms and complete regulatory compliance.',
   },
   {
     index: '04',
     title: 'Operational Cost Transformation',
-    body: 'Shift teams from manual execution to strategic oversight through AI-led automation.',
+    body: 'True cost transformation in media requires more than automation — it requires reimagining how human capital is deployed. We help shift teams from repetitive execution to strategic oversight, using AI-led systems that augment rather than replace institutional expertise.',
   },
 ]
 

@@ -2,6 +2,7 @@ import { Routes, Route, useLocation } from 'react-router'
 import { useEffect } from 'react'
 import Home from './pages/Home'
 import About from './pages/About'
+import KnowledgeHub from './pages/KnowledgeHub'
 import SmoothScroll from './components/SmoothScroll'
 import CustomCursor from './components/CustomCursor'
 import GrainOverlay from './components/GrainOverlay'
@@ -29,6 +30,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
+          <Route path="/knowledge-hub" element={<KnowledgeHub />} />
         </Routes>
       </PageTransition>
     </SmoothScroll>

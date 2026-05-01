@@ -1,73 +1,76 @@
-# React + TypeScript + Vite
+# Wisdomahead
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Sovereign AI Advisory for Media Enterprises**
 
-Currently, two official plugins are available:
+A premium digital presence for Wisdomahead — an advisory firm that architects secure, private AI systems for media organizations. Led by D. D. Purkayastha, former Managing Director & CEO of ABP Group.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Tech Stack
 
-## React Compiler
+- **React 19** + **TypeScript**
+- **Vite 7** (build tool)
+- **Tailwind CSS 3.4** (styling)
+- **shadcn/ui** (component primitives)
+- **GSAP** (animations & scroll interactions)
+- **React Router 7** (client-side routing)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Project Structure
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```
+src/
+  components/          # Reusable UI components & animation components
+  components/ui/       # shadcn/ui primitives
+  pages/               # Top-level page components
+  sections/            # Page sections organized by route
+    home/              # Home page sections
+    about/             # About page sections
+    knowledge-hub/     # Knowledge Hub page sections
+  hooks/               # Custom React hooks
+  lib/                 # Utilities
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Pages
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- **Home (`/`)** — Hero, What We Do, Core Capabilities, Founder Profile, Services, Marquee, Wisdom Difference, Contact
+- **About (`/about`)** — Firm Story, Methodology, Leadership Philosophy, Contact CTA
+- **Knowledge Hub (`/knowledge-hub`)** — Tabbed library of Strategic Insights, Transformation Cases, and Advisory Frameworks
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Local Development
+
+```bash
+npm install
+npm run dev
 ```
+
+The dev server runs on `http://localhost:3000`.
+
+## Build
+
+```bash
+npm run build
+```
+
+Static assets are output to the `dist/` directory.
+
+## Deploy to Vercel
+
+### Option 1: Vercel CLI
+
+```bash
+npm i -g vercel
+vercel
+```
+
+### Option 2: Git Integration
+
+1. Push this repository to GitHub
+2. Import the project in the [Vercel Dashboard](https://vercel.com/dashboard)
+3. Vercel will auto-detect Vite and use the correct build settings
+4. Deploy
+
+The included `vercel.json` handles SPA routing so all routes resolve correctly.
+
+## Environment Notes
+
+- Uses **Node.js 20**
+- `vite.config.ts` is configured with `base: '/'` for proper asset resolution on Vercel
+- `vercel.json` includes security headers and SPA rewrite rules

@@ -62,7 +62,7 @@ export default function WhatWeDo() {
               y={50}
               className="text-h1 text-white"
             >
-              Internal Process Optimization for Media Enterprises
+Operational Intelligence for the Media Enterprise
             </SplitText>
           </div>
 
@@ -77,7 +77,7 @@ export default function WhatWeDo() {
               className="text-body-l max-w-[520px]"
               style={{ color: 'rgba(255,255,255,0.7)' }}
             >
-              We redesign how your organization operates — eliminating inefficiencies, unlocking hidden data, and enabling AI-driven decision-making at scale.
+We architect sovereign AI systems that redesign how media organizations operate — eliminating inefficiencies trapped in legacy workflows, unlocking decades of proprietary data, and enabling board-level decision-making with complete data sovereignty.
             </SplitText>
           </div>
         </div>
