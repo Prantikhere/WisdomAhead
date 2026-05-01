@@ -10,6 +10,10 @@ export default function GradientBleed() {
   useEffect(() => {
     if (!containerRef.current) return
 
+    // Skip heavy animation on mobile
+    const isMobile = window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 768
+    if (isMobile) return
+
     const orbs = containerRef.current.querySelectorAll('.gradient-orb')
 
     gsap.set(orbs, { scale: 0, opacity: 0 })
@@ -44,7 +48,7 @@ export default function GradientBleed() {
   return (
     <div
       ref={containerRef}
-      className="pointer-events-none overflow-hidden"
+      className="pointer-events-none overflow-hidden hidden md:block"
       style={{
         position: 'fixed',
         inset: 0,

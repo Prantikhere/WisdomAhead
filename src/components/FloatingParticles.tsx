@@ -17,12 +17,16 @@ export default function FloatingParticles() {
   const particlesRef = useRef<Particle[]>([])
   const mouseRef = useRef({ x: 0, y: 0 })
 
+  const isTouchDevice = typeof window !== 'undefined' && (
+    'ontouchstart' in window ||
+    navigator.maxTouchPoints > 0 ||
+    window.matchMedia('(pointer: coarse)').matches
+  )
+
   useEffect(() => {
+    if (isTouchDevice) return
     const canvas = canvasRef.current
     if (!canvas) return
-
-    // Hide on touch devices
-    if ('ontouchstart' in window) return
 
     const ctx = canvas.getContext('2d')!
     let w = 0
@@ -51,7 +55,6 @@ export default function FloatingParticles() {
       }
     }
 
-    // Initialize pool
     for (let i = 0; i < 50; i++) {
       const p = createParticle()
       p.y = Math.random() * h
@@ -72,7 +75,6 @@ export default function FloatingParticles() {
         p.y += p.speedY
         p.x += p.speedX + Math.sin(p.life * 0.01) * 0.15
 
-        // Mouse repulsion
         const dx = p.x - mouseRef.current.x
         const dy = p.y - mouseRef.current.y
         const dist = Math.sqrt(dx * dx + dy * dy)
@@ -81,7 +83,6 @@ export default function FloatingParticles() {
           p.y += (dy / dist) * 1.5
         }
 
-        // Fade near end of life
         let alpha = p.opacity
         if (p.life > p.maxLife * 0.7) {
           alpha *= (1 - (p.life - p.maxLife * 0.7) / (p.maxLife * 0.3))
@@ -108,7 +109,9 @@ export default function FloatingParticles() {
       window.removeEventListener('resize', resize)
       window.removeEventListener('mousemove', onMouseMove)
     }
-  }, [])
+  }, [isTouchDevice])
+
+  if (isTouchDevice) return null
 
   return (
     <canvas

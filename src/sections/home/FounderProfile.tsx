@@ -16,11 +16,12 @@ export default function FounderProfile() {
   const imageRef = useRef<HTMLDivElement>(null)
   const contentRef = useRef<HTMLDivElement>(null)
 
+  const isMobile = typeof window !== 'undefined' && (window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 768)
+
   useEffect(() => {
     if (!sectionRef.current) return
 
     const ctx = gsap.context(() => {
-      // Image with parallax
       gsap.fromTo(imageRef.current,
         { y: 100, opacity: 0, clipPath: 'inset(100% 0 0 0)' },
         {
@@ -29,18 +30,20 @@ export default function FounderProfile() {
         }
       )
 
-      gsap.to(imageRef.current, {
-        yPercent: -5,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: true,
-        },
-      })
+      // Disable parallax scrub on mobile for performance
+      if (!isMobile) {
+        gsap.to(imageRef.current, {
+          yPercent: -5,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: true,
+          },
+        })
+      }
 
-      // Content stagger
       const items = contentRef.current?.querySelectorAll('.reveal-item')
       if (items) {
         gsap.fromTo(items,
@@ -54,7 +57,7 @@ export default function FounderProfile() {
     }, sectionRef)
 
     return () => ctx.revert()
-  }, [])
+  }, [isMobile])
 
   return (
     <section

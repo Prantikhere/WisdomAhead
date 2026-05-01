@@ -7,15 +7,19 @@ export default function CustomCursor() {
   const posRef = useRef({ x: 0, y: 0 })
   const isHoveringRef = useRef(false)
 
+  const isTouchDevice = typeof window !== 'undefined' && (
+    'ontouchstart' in window ||
+    navigator.maxTouchPoints > 0 ||
+    window.matchMedia('(pointer: coarse)').matches
+  )
+
   useEffect(() => {
-    // Hide on touch devices
-    if ('ontouchstart' in window) return
+    if (isTouchDevice) return
 
     const dot = dotRef.current
     const ring = ringRef.current
     if (!dot || !ring) return
 
-    // Make cursor visible
     dot.style.opacity = '1'
     ring.style.opacity = '1'
     document.body.style.cursor = 'none'
@@ -53,7 +57,6 @@ export default function CustomCursor() {
 
     window.addEventListener('mousemove', onMove, { passive: true })
 
-    // Track interactive elements
     const selectors = 'a, button, input, textarea, [data-cursor-hover]'
     const addListeners = () => {
       document.querySelectorAll(selectors).forEach((el) => {
@@ -75,14 +78,12 @@ export default function CustomCursor() {
       })
       document.body.style.cursor = ''
     }
-  }, [])
+  }, [isTouchDevice])
 
-  // Don't render on touch devices
-  if (typeof window !== 'undefined' && 'ontouchstart' in window) return null
+  if (isTouchDevice) return null
 
   return (
     <>
-      {/* Dot */}
       <div
         ref={dotRef}
         className="fixed top-0 left-0 pointer-events-none z-[9999] opacity-0"
@@ -96,7 +97,6 @@ export default function CustomCursor() {
           willChange: 'transform',
         }}
       />
-      {/* Ring */}
       <div
         ref={ringRef}
         className="fixed top-0 left-0 pointer-events-none z-[9998] opacity-0"
@@ -110,7 +110,6 @@ export default function CustomCursor() {
           transition: 'border-color 0.3s',
         }}
       />
-      {/* Hide default cursor globally */}
       <style>{`
         @media (pointer: fine) {
           *, *::before, *::after { cursor: none !important; }

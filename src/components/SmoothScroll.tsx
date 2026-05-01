@@ -9,6 +9,10 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
   const lenisRef = useRef<Lenis | null>(null)
 
   useEffect(() => {
+    // Disable Lenis on mobile/touch devices to avoid scroll conflicts
+    const isMobile = window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 768
+    if (isMobile) return
+
     const lenis = new Lenis({
       duration: 1.2,
       easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),

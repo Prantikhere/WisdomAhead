@@ -12,6 +12,8 @@ export default function Hero() {
   const scrollRef = useRef<HTMLDivElement>(null)
   const sectionRef = useRef<HTMLElement>(null)
 
+  const isMobile = typeof window !== 'undefined' && (window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 768)
+
   useEffect(() => {
     const tl = gsap.timeline({ delay: 0.5 })
 
@@ -26,11 +28,12 @@ export default function Hero() {
   }, [])
 
   useEffect(() => {
+    if (isMobile) return
+
     const onScroll = () => {
       if (!scrollRef.current || !sectionRef.current) return
       const scrollY = window.scrollY
       scrollRef.current.style.opacity = String(Math.max(0, 1 - scrollY / 150))
-      // Parallax the text upward
       const content = sectionRef.current.querySelector('.hero-content') as HTMLElement
       if (content) {
         content.style.transform = `translateY(${scrollY * 0.15}px)`
@@ -38,7 +41,7 @@ export default function Hero() {
     }
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
-  }, [])
+  }, [isMobile])
 
   return (
     <section ref={sectionRef} className="relative min-h-[100dvh] flex items-center overflow-hidden">

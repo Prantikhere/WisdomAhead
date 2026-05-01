@@ -11,33 +11,52 @@ export default function WisdomDifference() {
   const supportRef = useRef<HTMLParagraphElement>(null)
   const bodyRef = useRef<HTMLParagraphElement>(null)
 
+  const isMobile = typeof window !== 'undefined' && (window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 768)
+
   useEffect(() => {
     if (!sectionRef.current) return
 
     const ctx = gsap.context(() => {
-      // Character-by-character animation
       const chars = displayRef.current?.querySelectorAll('.char')
       if (chars && chars.length > 0) {
-        gsap.fromTo(chars,
-          { opacity: 0, y: 20 },
-          {
-            opacity: 1, y: 0,
-            duration: 0.04,
-            stagger: 0.035,
-            ease: 'power2.out',
-            scrollTrigger: {
-              trigger: displayRef.current,
-              start: 'top 80%',
-              toggleActions: 'play none none none',
-            },
-          }
-        )
+        if (isMobile) {
+          // On mobile: simple fade-in instead of char-by-char for performance
+          gsap.fromTo(displayRef.current,
+            { opacity: 0, y: 30 },
+            {
+              opacity: 1, y: 0,
+              duration: 0.8,
+              ease: 'power3.out',
+              scrollTrigger: {
+                trigger: displayRef.current,
+                start: 'top 80%',
+                toggleActions: 'play none none none',
+              },
+            }
+          )
+        } else {
+          // Desktop: character-by-character animation
+          gsap.fromTo(chars,
+            { opacity: 0, y: 20 },
+            {
+              opacity: 1, y: 0,
+              duration: 0.04,
+              stagger: 0.035,
+              ease: 'power2.out',
+              scrollTrigger: {
+                trigger: displayRef.current,
+                start: 'top 80%',
+                toggleActions: 'play none none none',
+              },
+            }
+          )
+        }
       }
 
       gsap.fromTo(supportRef.current,
         { y: 30, opacity: 0 },
         {
-          y: 0, opacity: 1, duration: 0.8, delay: 0.4, ease: 'power3.out',
+          y: 0, opacity: 1, duration: 0.8, delay: isMobile ? 0.1 : 0.4, ease: 'power3.out',
           scrollTrigger: { trigger: supportRef.current, start: 'top 85%', toggleActions: 'play none none none' },
         }
       )
@@ -45,20 +64,20 @@ export default function WisdomDifference() {
       gsap.fromTo(bodyRef.current,
         { y: 20, opacity: 0 },
         {
-          y: 0, opacity: 1, duration: 0.7, delay: 0.6, ease: 'power3.out',
+          y: 0, opacity: 1, duration: 0.7, delay: isMobile ? 0.2 : 0.6, ease: 'power3.out',
           scrollTrigger: { trigger: bodyRef.current, start: 'top 85%', toggleActions: 'play none none none' },
         }
       )
     }, sectionRef)
 
     return () => ctx.revert()
-  }, [])
+  }, [isMobile])
 
   const renderChars = (text: string, isAccent: boolean = false) => {
     return text.split('').map((char, i) => (
       <span
         key={i}
-        className="char inline-block opacity-0"
+        className={`char inline-block ${isMobile ? '' : 'opacity-0'}`}
         style={{
           color: isAccent ? 'var(--accent-red)' : undefined,
           transformOrigin: 'center bottom',

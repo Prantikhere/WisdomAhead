@@ -16,13 +16,14 @@ export default function AnimatedCounter({ end, suffix = '', duration = 2, classN
   const ref = useRef<HTMLSpanElement>(null)
   const [value, setValue] = useState(0)
   const hasAnimated = useRef(false)
+  const triggerRef = useRef<ScrollTrigger | null>(null)
 
   useEffect(() => {
     if (!ref.current) return
 
     const obj = { val: 0 }
 
-    ScrollTrigger.create({
+    triggerRef.current = ScrollTrigger.create({
       trigger: ref.current,
       start: 'top 85%',
       onEnter: () => {
@@ -39,7 +40,9 @@ export default function AnimatedCounter({ end, suffix = '', duration = 2, classN
       },
     })
 
-    return () => { ScrollTrigger.getAll().forEach(t => t.kill()) }
+    return () => {
+      triggerRef.current?.kill()
+    }
   }, [end, duration])
 
   return (

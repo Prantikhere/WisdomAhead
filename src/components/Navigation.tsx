@@ -43,8 +43,23 @@ export default function Navigation() {
         const el = document.getElementById(id)
         if (el) el.scrollIntoView({ behavior: 'smooth' })
       }
+      // If not on home page, let the default navigation happen
+      // (react-router will navigate to / and then scroll)
     }
   }
+
+  // Handle scroll-to-hash after navigation to home page
+  useEffect(() => {
+    if (location.pathname === '/' && location.hash) {
+      const id = location.hash.replace('#', '')
+      const el = document.getElementById(id)
+      if (el) {
+        setTimeout(() => {
+          el.scrollIntoView({ behavior: 'smooth' })
+        }, 100)
+      }
+    }
+  }, [location])
 
   return (
     <>
@@ -125,7 +140,7 @@ export default function Navigation() {
             transition: 'transform 0.4s cubic-bezier(0.25, 1, 0.5, 1)',
           }}
         >
-          <div className="container-main h-full flex flex-col justify-center items-center gap-8 relative">
+          <div className="container-main h-full flex flex-col justify-center items-center gap-8 relative overflow-y-auto py-24">
             <button
               className="absolute top-5 right-5 p-2"
               onClick={() => setMobileOpen(false)}

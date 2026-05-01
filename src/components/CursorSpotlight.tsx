@@ -6,9 +6,14 @@ export default function CursorSpotlight() {
   const currentRef = useRef({ x: -200, y: -200 })
   const rafRef = useRef<number>(0)
 
+  const isTouchDevice = typeof window !== 'undefined' && (
+    'ontouchstart' in window ||
+    navigator.maxTouchPoints > 0 ||
+    window.matchMedia('(pointer: coarse)').matches
+  )
+
   useEffect(() => {
-    // Hide on touch devices
-    if ('ontouchstart' in window) return
+    if (isTouchDevice) return
 
     const onMove = (e: MouseEvent) => {
       mouseRef.current = { x: e.clientX, y: e.clientY }
@@ -33,7 +38,9 @@ export default function CursorSpotlight() {
       cancelAnimationFrame(rafRef.current)
       window.removeEventListener('mousemove', onMove)
     }
-  }, [])
+  }, [isTouchDevice])
+
+  if (isTouchDevice) return null
 
   return (
     <div

@@ -187,6 +187,10 @@ export default function MeshGradientRain({ opacity = 0.4, mouseReactive = true }
     const gl = canvas.getContext('webgl', { alpha: true, premultipliedAlpha: false })
     if (!gl) return
 
+    // Detect mobile/touch for performance optimization
+    const isMobile = window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 768
+    const dpr = isMobile ? 1 : Math.min(window.devicePixelRatio, 2)
+
     function compileShader(src: string, type: number) {
       const s = gl!.createShader(type)!
       gl!.shaderSource(s, src)
@@ -224,7 +228,6 @@ export default function MeshGradientRain({ opacity = 0.4, mouseReactive = true }
     gl.uniform2f(uMouse, 0, 0)
 
     function resize() {
-      const dpr = Math.min(window.devicePixelRatio, 2)
       canvas!.width = canvas!.offsetWidth * dpr
       canvas!.height = canvas!.offsetHeight * dpr
     }
@@ -238,7 +241,7 @@ export default function MeshGradientRain({ opacity = 0.4, mouseReactive = true }
       mouseRef.current.targetY = -(e.clientY / window.innerHeight - 0.5) * 2
     }
 
-    if (mouseReactive) {
+    if (mouseReactive && !isMobile) {
       window.addEventListener('mousemove', onMouseMove, { passive: true })
     }
 
@@ -246,7 +249,7 @@ export default function MeshGradientRain({ opacity = 0.4, mouseReactive = true }
       const now = (performance.now() - startTime) * 0.001
       
       // Smooth mouse lerp
-      if (mouseReactive) {
+      if (mouseReactive && !isMobile) {
         mouseRef.current.x += (mouseRef.current.targetX - mouseRef.current.x) * 0.05
         mouseRef.current.y += (mouseRef.current.targetY - mouseRef.current.y) * 0.05
         gl!.uniform2f(uMouse, mouseRef.current.x, mouseRef.current.y)
@@ -263,7 +266,7 @@ export default function MeshGradientRain({ opacity = 0.4, mouseReactive = true }
     return () => {
       cancelAnimationFrame(rafRef.current)
       window.removeEventListener('resize', resize)
-      if (mouseReactive) {
+      if (mouseReactive && !isMobile) {
         window.removeEventListener('mousemove', onMouseMove)
       }
     }

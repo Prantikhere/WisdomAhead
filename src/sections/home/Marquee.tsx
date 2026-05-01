@@ -11,10 +11,28 @@ export default function Marquee() {
   const track2Ref = useRef<HTMLDivElement>(null)
   const sectionRef = useRef<HTMLElement>(null)
 
+  const isMobile = typeof window !== 'undefined' && (window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 768)
+
   useEffect(() => {
     if (!track1Ref.current || !track2Ref.current || !sectionRef.current) return
 
-    // Infinite scroll for track 1 (left)
+    // On mobile, use CSS animation instead of GSAP for better performance
+    if (isMobile) {
+      gsap.fromTo(sectionRef.current,
+        { opacity: 0, y: 30 },
+        {
+          opacity: 1, y: 0, duration: 0.8, ease: 'power3.out',
+          scrollTrigger: { trigger: sectionRef.current, start: 'top 90%', toggleActions: 'play none none none' },
+        }
+      )
+      return () => {
+        ScrollTrigger.getAll().forEach((t) => {
+          if (t.trigger === sectionRef.current) t.kill()
+        })
+      }
+    }
+
+    // Desktop: GSAP infinite scroll
     gsap.to(track1Ref.current, {
       xPercent: -50,
       ease: 'none',
@@ -22,7 +40,6 @@ export default function Marquee() {
       repeat: -1,
     })
 
-    // Infinite scroll for track 2 (right)
     gsap.to(track2Ref.current, {
       xPercent: 50,
       ease: 'none',
@@ -30,7 +47,6 @@ export default function Marquee() {
       repeat: -1,
     })
 
-    // Entrance
     gsap.fromTo(sectionRef.current,
       { opacity: 0, y: 30 },
       {
@@ -44,7 +60,7 @@ export default function Marquee() {
         if (t.trigger === sectionRef.current) t.kill()
       })
     }
-  }, [])
+  }, [isMobile])
 
   const renderTrack = (reverse: boolean = false) => (
     <>
@@ -64,14 +80,42 @@ export default function Marquee() {
       style={{ borderTop: '1px solid rgba(0,0,0,0.06)', borderBottom: '1px solid rgba(0,0,0,0.06)' }}
     >
       {/* Track 1 - scrolling left */}
-      <div ref={track1Ref} className="flex whitespace-nowrap mb-4" style={{ width: 'max-content' }}>
+      <div
+        ref={track1Ref}
+        className="flex whitespace-nowrap mb-4"
+        style={{
+          width: 'max-content',
+          animation: isMobile ? 'marqueeLeft 30s linear infinite' : undefined,
+        }}
+      >
         {renderTrack()}
       </div>
 
-      {/* Track 2 - scrolling right (reversed via CSS) */}
-      <div ref={track2Ref} className="flex whitespace-nowrap" style={{ width: 'max-content', transform: 'translateX(-50%)' }}>
+      {/* Track 2 - scrolling right */}
+      <div
+        ref={track2Ref}
+        className="flex whitespace-nowrap"
+        style={{
+          width: 'max-content',
+          transform: 'translateX(-50%)',
+          animation: isMobile ? 'marqueeRight 25s linear infinite' : undefined,
+        }}
+      >
         {renderTrack(true)}
       </div>
+
+      {isMobile && (
+        <style>{`
+          @keyframes marqueeLeft {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+          }
+          @keyframes marqueeRight {
+            0% { transform: translateX(-50%); }
+            100% { transform: translateX(0); }
+          }
+        `}</style>
+      )}
     </section>
   )
 }

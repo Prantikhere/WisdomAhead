@@ -170,12 +170,12 @@ export default function InsightsTabs() {
 
         <div ref={tabsRef} className="opacity-0">
           <Tabs defaultValue="strategic-insights" onValueChange={setActiveTab} className="w-full">
-            <TabsList className="mx-auto mb-14 flex w-fit h-auto p-1.5 rounded-none" style={{ background: '#f5f5f5' }}>
+            <TabsList className="mx-auto mb-14 flex w-full md:w-fit h-auto p-1.5 rounded-none overflow-x-auto" style={{ background: '#f5f5f5' }}>
               {tabConfig.map((tab) => (
                 <TabsTrigger
                   key={tab.value}
                   value={tab.value}
-                  className="text-label rounded-none px-6 py-3 data-[state=active]:bg-white data-[state=active]:shadow-sm data-[state=active]:text-black transition-all duration-300"
+                  className="text-label rounded-none px-4 md:px-6 py-3 data-[state=active]:bg-white data-[state=active]:shadow-sm data-[state=active]:text-black transition-all duration-300 whitespace-nowrap"
                   style={{ fontSize: '11px', letterSpacing: '0.1em' }}
                 >
                   <tab.icon className="w-4 h-4 mr-2" />

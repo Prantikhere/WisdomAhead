@@ -10,13 +10,13 @@ export default function PageTransition({ children }: { children: React.ReactNode
   const overlayRef = useRef<HTMLDivElement>(null)
   const contentRef = useRef<HTMLDivElement>(null)
   const pendingPath = useRef<string | null>(null)
+  const isMobile = typeof window !== 'undefined' && (window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 768)
 
   // Handle actual navigation changes
   useEffect(() => {
     if (location.pathname !== displayLocation.pathname && !isTransitioning) {
-      // Navigation happened externally - animate in
       setDisplayLocation(location)
-      if (contentRef.current) {
+      if (contentRef.current && !isMobile) {
         gsap.fromTo(contentRef.current,
           { opacity: 0, y: 30 },
           { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out', delay: 0.1 }
@@ -24,20 +24,22 @@ export default function PageTransition({ children }: { children: React.ReactNode
       }
       window.scrollTo(0, 0)
     }
-  }, [location])
+  }, [location, isMobile, isTransitioning, displayLocation.pathname])
 
   useEffect(() => {
-    // Initial page load animation
-    if (contentRef.current) {
+    if (contentRef.current && !isMobile) {
       gsap.fromTo(contentRef.current,
         { opacity: 0, y: 20 },
         { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out', delay: 0.2 }
       )
     }
-  }, [])
+  }, [isMobile])
 
   // Intercept all link clicks
   useEffect(() => {
+    // Skip custom transitions on mobile for better responsiveness
+    if (isMobile) return
+
     const handleClick = (e: MouseEvent) => {
       const target = e.target as HTMLElement
       const anchor = target.closest('a') as HTMLAnchorElement | null
@@ -53,14 +55,12 @@ export default function PageTransition({ children }: { children: React.ReactNode
 
       setIsTransitioning(true)
 
-      // Animate out
       const tl = gsap.timeline({
         onComplete: () => {
           setDisplayLocation({ ...location, pathname: pendingPath.current! })
           navigate(pendingPath.current!)
           window.scrollTo(0, 0)
 
-          // Animate overlay away
           gsap.to(overlayRef.current, {
             yPercent: -100,
             duration: 0.6,
@@ -72,7 +72,6 @@ export default function PageTransition({ children }: { children: React.ReactNode
             },
           })
 
-          // Animate content in
           if (contentRef.current) {
             gsap.fromTo(contentRef.current,
               { opacity: 0, y: 30 },
@@ -88,22 +87,21 @@ export default function PageTransition({ children }: { children: React.ReactNode
 
     document.addEventListener('click', handleClick, true)
     return () => document.removeEventListener('click', handleClick, true)
-  }, [location, navigate])
+  }, [location, navigate, isMobile])
 
   return (
     <>
-      {/* Transition Overlay */}
-      <div
-        ref={overlayRef}
-        className="fixed inset-0 z-[300] pointer-events-none"
-        style={{
-          background: '#0A1628',
-          transform: 'translateY(100%)',
-          willChange: 'transform',
-        }}
-      />
-
-      {/* Content */}
+      {!isMobile && (
+        <div
+          ref={overlayRef}
+          className="fixed inset-0 z-[300] pointer-events-none"
+          style={{
+            background: '#0A1628',
+            transform: 'translateY(100%)',
+            willChange: 'transform',
+          }}
+        />
+      )}
       <div ref={contentRef}>{children}</div>
     </>
   )
