@@ -152,45 +152,60 @@ export default function InsightsTabs() {
   return (
     <section
       ref={sectionRef}
-      className="bg-white"
-      style={{ padding: 'clamp(100px, 12vw, 200px) 0' }}
+      className="bg-white relative overflow-hidden"
+      style={{ padding: 'clamp(60px, 8vw, 120px) 0' }}
     >
-      <div className="container-main">
-        <div ref={headerRef} className="text-center mb-16 opacity-0">
-          <span className="text-label block mb-5" style={{ color: 'var(--accent-red)' }}>
-            CURATED INTELLIGENCE
-          </span>
-          <h2 className="text-h1 text-black mb-6">
+      {/* Subtle background decoration */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-20 right-10 w-24 h-24 bg-gradient-to-br from-[var(--accent-red)]/5 to-transparent rounded-full blur-3xl float-animation" style={{ animationDelay: '0s' }} />
+        <div className="absolute bottom-20 left-10 w-32 h-32 bg-gradient-to-tl from-[var(--gradient-coral)]/5 to-transparent rounded-full blur-3xl float-animation" style={{ animationDelay: '2s' }} />
+      </div>
+
+      <div className="container-main relative z-[2] px-4 sm:px-6">
+        <div ref={headerRef} className="text-center mb-12 lg:mb-16 opacity-0">
+          <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full border glass-effect mb-6" style={{
+            borderColor: 'rgba(214,52,71,0.2)',
+            background: 'rgba(214,52,71,0.05)'
+          }}>
+            <svg className="w-5 h-5 text-[var(--accent-red)]" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+            </svg>
+            <span className="text-label" style={{ color: 'var(--accent-red)' }}>
+              CURATED INTELLIGENCE
+            </span>
+          </div>
+          <h2 className="text-h1 text-black mb-6 text-2xl sm:text-3xl lg:text-4xl">
             Insights for the Transformation Journey
           </h2>
-          <p className="text-body-l max-w-[600px] mx-auto" style={{ color: 'var(--text-secondary)' }}>
+          <p className="text-body-l max-w-full sm:max-w-[600px] mx-auto text-sm sm:text-base" style={{ color: 'var(--text-secondary)' }}>
             A collection of strategic perspectives, proven case studies, and actionable frameworks developed from four decades of media leadership and sovereign AI advisory.
           </p>
         </div>
 
         <div ref={tabsRef} className="opacity-0">
           <Tabs defaultValue="strategic-insights" onValueChange={setActiveTab} className="w-full">
-            <TabsList className="mx-auto mb-14 flex w-full md:w-fit h-auto p-1.5 rounded-none overflow-x-auto" style={{ background: '#f5f5f5' }}>
+            <TabsList className="mx-auto mb-10 lg:mb-14 flex w-full md:w-fit h-auto p-1.5 rounded-lg overflow-x-auto" style={{ background: '#f5f5f5' }}>
               {tabConfig.map((tab) => (
                 <TabsTrigger
                   key={tab.value}
                   value={tab.value}
-                  className="text-label rounded-none px-4 md:px-6 py-3 data-[state=active]:bg-white data-[state=active]:shadow-sm data-[state=active]:text-black transition-all duration-300 whitespace-nowrap"
+                  className="text-label rounded-lg px-3 sm:px-4 md:px-6 py-2.5 data-[state=active]:bg-white data-[state=active]:shadow-sm data-[state=active]:text-black transition-all duration-300 whitespace-nowrap text-xs sm:text-sm"
                   style={{ fontSize: '11px', letterSpacing: '0.1em' }}
                 >
-                  <tab.icon className="w-4 h-4 mr-2" />
-                  {tab.label}
+                  <tab.icon className="w-3 h-3 sm:w-4 sm:h-4 mr-1.5 sm:mr-2" />
+                  <span className="hidden sm:inline">{tab.label}</span>
+                  <span className="sm:hidden">{tab.label.split(' ')[0]}</span>
                 </TabsTrigger>
               ))}
             </TabsList>
 
             {tabConfig.map((tab) => (
               <TabsContent key={tab.value} value={tab.value} className="mt-0">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
                   {tab.data.map((item) => (
                     <TiltCard key={item.id} tiltAmount={4} className="insight-card">
                       <div
-                        className="group p-8 lg:p-10 h-full transition-all duration-500 cursor-pointer"
+                        className="group p-6 lg:p-8 h-full transition-all duration-500 cursor-pointer"
                         style={{
                           border: '1px solid rgba(0,0,0,0.08)',
                         }}
@@ -203,55 +218,56 @@ export default function InsightsTabs() {
                           e.currentTarget.style.boxShadow = 'none'
                         }}
                       >
-                        <div className="flex items-center justify-between mb-6">
-                          <span className="text-label" style={{ color: 'var(--accent-red)', fontSize: '10px' }}>
+                        <div className="flex items-center justify-between mb-4">
+                          <span className="text-label" style={{ color: 'var(--accent-red)', fontSize: '9px' }}>
                             {tab.label.toUpperCase()}
                           </span>
                           {'readTime' in item && (
-                            <span className="text-label" style={{ color: 'var(--text-tertiary)', fontSize: '10px' }}>
+                            <span className="text-label" style={{ color: 'var(--text-tertiary)', fontSize: '9px' }}>
                               {item.readTime}
                             </span>
                           )}
                           {'format' in item && (
-                            <span className="text-label" style={{ color: 'var(--text-tertiary)', fontSize: '10px' }}>
+                            <span className="text-label" style={{ color: 'var(--text-tertiary)', fontSize: '9px' }}>
                               {item.format}
                             </span>
                           )}
                           {'industry' in item && (
-                            <span className="text-label" style={{ color: 'var(--text-tertiary)', fontSize: '10px' }}>
+                            <span className="text-label" style={{ color: 'var(--text-tertiary)', fontSize: '9px' }}>
                               {item.industry}
                             </span>
                           )}
                         </div>
 
-                        <h3 className="text-h2 text-black mb-4 group-hover:text-[var(--accent-red)] transition-colors duration-500">
+                        <h3 className="text-h3 text-black mb-3 lg:mb-4 group-hover:text-[var(--accent-red)] transition-colors duration-500 text-lg sm:text-xl lg:text-2xl">
                           {item.title}
                         </h3>
 
-                        <p className="text-body leading-relaxed mb-8" style={{ color: 'var(--text-secondary)' }}>
+                        <p className="text-body leading-relaxed mb-6 text-sm sm:text-base" style={{ color: 'var(--text-secondary)' }}>
                           {item.excerpt}
                         </p>
 
-                        <div className="flex items-center justify-between pt-6" style={{ borderTop: '1px solid rgba(0,0,0,0.06)' }}>
+                        <div className="flex items-center justify-between pt-4" style={{ borderTop: '1px solid rgba(0,0,0,0.06)' }}>
                           {'date' in item && (
-                            <span className="text-label" style={{ color: 'var(--text-tertiary)', fontSize: '10px' }}>
+                            <span className="text-label" style={{ color: 'var(--text-tertiary)', fontSize: '9px' }}>
                               {item.date}
                             </span>
                           )}
                           {'outcome' in item && (
-                            <span className="text-label" style={{ color: 'var(--accent-red)', fontSize: '10px' }}>
+                            <span className="text-label" style={{ color: 'var(--accent-red)', fontSize: '9px' }}>
                               {item.outcome}
                             </span>
                           )}
                           {'format' in item && (
-                            <span className="text-label" style={{ color: 'var(--text-tertiary)', fontSize: '10px' }}>
+                            <span className="text-label" style={{ color: 'var(--text-tertiary)', fontSize: '9px' }}>
                               Download Available
                             </span>
                           )}
 
-                          <span className="flex items-center gap-2 text-label transition-all duration-500 group-hover:gap-3" style={{ color: 'var(--accent-red)', fontSize: '11px' }}>
-                            <span>Explore</span>
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="transition-transform duration-500 group-hover:translate-x-1">
+                          <span className="flex items-center gap-2 text-label transition-all duration-500 group-hover:gap-3" style={{ color: 'var(--accent-red)', fontSize: '10px' }}>
+                            <span className="hidden sm:inline">Explore</span>
+                            <span className="sm:hidden">→</span>
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="transition-transform duration-500 group-hover:translate-x-1 hidden sm:block">
                               <line x1="5" y1="12" x2="19" y2="12" />
                               <polyline points="12 5 19 12 12 19" />
                             </svg>
