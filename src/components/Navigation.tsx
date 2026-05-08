@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import { Link, useLocation } from 'react-router'
 import gsap from 'gsap'
 import { 
-  Menu, X, Home, Info, Briefcase, 
+  Home, Info, Briefcase, 
   BookOpen, Mail, ChevronRight 
 } from 'lucide-react'
 

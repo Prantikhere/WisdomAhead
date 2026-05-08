@@ -1,8 +1,10 @@
 import { Routes, Route, useLocation } from 'react-router'
 import { useEffect } from 'react'
+
 import Home from './pages/Home'
 import About from './pages/About'
 import KnowledgeHub from './pages/KnowledgeHub'
+
 import SmoothScroll from './components/SmoothScroll'
 import CustomCursor from './components/CustomCursor'
 import GrainOverlay from './components/GrainOverlay'
@@ -14,9 +16,11 @@ import Navigation from './components/Navigation'
 
 function ScrollToTop() {
   const { pathname } = useLocation()
+
   useEffect(() => {
     window.scrollTo(0, 0)
   }, [pathname])
+
   return null
 }
 
@@ -27,13 +31,30 @@ export default function App() {
       <GrainOverlay />
       <FloatingParticles />
       <CursorSpotlight />
+
       <GlobalBackdrop />
+
+      {/* Global Navbar */}
+      <Navigation />
+
       <PageTransition>
         <ScrollToTop />
+
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/knowledge-hub" element={<KnowledgeHub />} />
+          <Route
+            path="/"
+            element={<Home />}
+          />
+
+          <Route
+            path="/about"
+            element={<About />}
+          />
+
+          <Route
+            path="/knowledge-hub"
+            element={<KnowledgeHub />}
+          />
         </Routes>
       </PageTransition>
     </SmoothScroll>
