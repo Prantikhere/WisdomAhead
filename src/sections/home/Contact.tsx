@@ -317,48 +317,71 @@ export default function Contact() {
                 </div>
 
                 {/* Submit */}
-                <div className="form-field" style={{ opacity: 0 }}>
-                  <MagneticButton strength={0.3}>
-                    <button
-                      type="submit"
-                      className="group relative overflow-hidden w-full flex items-center justify-center gap-3 font-semibold"
-                      style={{
-                        background: 'linear-gradient(135deg, #cc2828, #d94a2a)',
-                        color: '#fff',
-                        padding: '14px 24px',
-                        borderRadius: 3,
-                        fontSize: '0.72rem',
-                        letterSpacing: '0.2em',
-                        textTransform: 'uppercase',
-                        border: 'none',
-                        cursor: 'pointer',
-                        transition: 'transform 0.25s ease, box-shadow 0.25s ease',
-                      }}
-                      onMouseEnter={e => {
-                        e.currentTarget.style.transform = 'translateY(-1px)'
-                        e.currentTarget.style.boxShadow = '0 8px 28px rgba(200,40,40,0.4)'
-                      }}
-                      onMouseLeave={e => {
-                        e.currentTarget.style.transform = 'translateY(0)'
-                        e.currentTarget.style.boxShadow = 'none'
-                      }}
-                    >
-                      {/* Shine sweep */}
-                      <div
-                        className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out"
-                        style={{ background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent)', pointerEvents: 'none' }}
-                      />
-                      <span className="relative z-10">SUBMIT INQUIRY</span>
-                      <svg
-                        className="relative z-10 transition-transform duration-300 group-hover:translate-x-1"
-                        style={{ width: 14, height: 14 }}
-                        fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"
-                      >
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                      </svg>
-                    </button>
-                  </MagneticButton>
-                </div>
+<div className="form-field" style={{ opacity: 0 }}>
+  <MagneticButton strength={0.3}>
+    <button
+      type="submit"
+      className="group relative overflow-hidden w-full flex items-center justify-center gap-3 font-semibold"
+      style={{
+        background: 'linear-gradient(135deg, #cc2828, #d94a2a)',
+        color: '#fff',
+        padding: '15px 28px',
+        borderRadius: 999,
+        fontSize: '0.72rem',
+        letterSpacing: '0.2em',
+        textTransform: 'uppercase',
+        border: 'none',
+        cursor: 'pointer',
+        transition:
+          'transform 0.25s ease, box-shadow 0.25s ease',
+        boxShadow:
+          '0 10px 30px rgba(200,40,40,0.18)',
+        animation: 'ctaPulse 4s ease-in-out infinite',
+      }}
+      onMouseEnter={e => {
+        e.currentTarget.style.transform =
+          'translateY(-2px)'
+        e.currentTarget.style.boxShadow =
+          '0 18px 42px rgba(200,40,40,0.32)'
+      }}
+      onMouseLeave={e => {
+        e.currentTarget.style.transform =
+          'translateY(0)'
+        e.currentTarget.style.boxShadow =
+          '0 10px 30px rgba(200,40,40,0.18)'
+      }}
+    >
+      {/* Shine sweep */}
+      <div
+        className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out"
+        style={{
+          background:
+            'linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent)',
+          pointerEvents: 'none',
+        }}
+      />
+
+      <span className="relative z-10">
+        Submit Inquiry
+      </span>
+
+      <svg
+        className="relative z-10 transition-transform duration-300 group-hover:translate-x-1"
+        style={{ width: 14, height: 14 }}
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2.5"
+        viewBox="0 0 24 24"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M13 7l5 5m0 0l-5 5m5-5H6"
+        />
+      </svg>
+    </button>
+  </MagneticButton>
+</div>
 
               </form>
             )}
@@ -366,6 +389,19 @@ export default function Contact() {
 
         </div>
       </div>
+      <style>{`
+  @keyframes ctaPulse {
+    0% {
+      box-shadow: 0 10px 30px rgba(200,40,40,0.18);
+    }
+    50% {
+      box-shadow: 0 16px 45px rgba(220,50,50,0.28);
+    }
+    100% {
+      box-shadow: 0 10px 30px rgba(200,40,40,0.18);
+    }
+  }
+`}</style>
     </section>
   )
 }

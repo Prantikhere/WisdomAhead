@@ -20,7 +20,7 @@ export default function ContactCTA() {
       gsap.fromTo(glowRef.current,
         { opacity: 0, scale: 0.85 },
         {
-          opacity: 1, scale: 1, duration: 1.4, ease: 'power2.out',
+          opacity: 1, scale: 1, duration: 2, ease: 'power2.out',
           scrollTrigger: { trigger: sectionRef.current, start: 'top 80%', toggleActions: 'play none none none' },
         }
       )
@@ -48,32 +48,32 @@ export default function ContactCTA() {
     <section
       ref={sectionRef}
       style={{
-        background: 'linear-gradient(160deg, #080606 0%, #110a0a 55%, #080606 100%)',
+        // Deep Reddish Black Ombre Background
+        background: 'linear-gradient(95deg, #0a0a0a 0%, #0d0d0d 45%, #2a0505 100%)',
         padding: 'clamp(100px, 12vw, 200px) 0',
         position: 'relative',
         overflow: 'hidden',
-        borderTop: '1px solid rgba(255,255,255,0.04)',
+        borderTop: '1px solid rgba(255,255,255,0.03)',
       }}
     >
-      {/* Grain */}
-      <div className="absolute inset-0 pointer-events-none opacity-[0.025]" style={{
+      {/* Texture: Subtle Grain */}
+      <div className="absolute inset-0 pointer-events-none opacity-[0.03]" style={{
         backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
         backgroundSize: '160px 160px',
       }} />
 
-      {/* Dot grid */}
-      <div className="absolute inset-0 pointer-events-none opacity-[0.03]" style={{
-        backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.7) 1px, transparent 1px)',
-        backgroundSize: '36px 36px',
+      {/* Texture: Dot grid */}
+      <div className="absolute inset-0 pointer-events-none opacity-[0.02]" style={{
+        backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.5) 1px, transparent 1px)',
+        backgroundSize: '40px 40px',
       }} />
 
-      {/* Radial glow behind content */}
+      {/* Atmospheric Right-Side Glow (Matching the image style) */}
       <div ref={glowRef} className="absolute pointer-events-none opacity-0" style={{
-        top: '50%', left: '50%',
-        transform: 'translate(-50%, -50%)',
-        width: '70vw', height: '50vh', maxWidth: 900,
-        background: 'radial-gradient(ellipse, rgba(180,25,25,0.10) 0%, transparent 65%)',
-        filter: 'blur(40px)',
+        top: '0', right: '-10%',
+        width: '60vw', height: '100%',
+        background: 'radial-gradient(circle at center, rgba(160,20,20,0.08) 0%, transparent 75%)',
+        filter: 'blur(60px)',
       }} />
 
       {/* Corner accents */}
@@ -85,10 +85,10 @@ export default function ContactCTA() {
       ] as React.CSSProperties[]).map((pos, i) => (
         <div key={i} className="absolute pointer-events-none" style={{
           ...pos, width: 18, height: 18,
-          borderTop:    i < 2  ? '1px solid rgba(200,40,30,0.3)' : undefined,
-          borderBottom: i >= 2 ? '1px solid rgba(200,40,30,0.3)' : undefined,
-          borderLeft:   i % 2 === 0 ? '1px solid rgba(200,40,30,0.3)' : undefined,
-          borderRight:  i % 2 === 1 ? '1px solid rgba(200,40,30,0.3)' : undefined,
+          borderTop:    i < 2  ? '1px solid rgba(200,40,30,0.25)' : undefined,
+          borderBottom: i >= 2 ? '1px solid rgba(200,40,30,0.25)' : undefined,
+          borderLeft:   i % 2 === 0 ? '1px solid rgba(200,40,30,0.25)' : undefined,
+          borderRight:  i % 2 === 1 ? '1px solid rgba(200,40,30,0.25)' : undefined,
         }} />
       ))}
 
@@ -96,12 +96,12 @@ export default function ContactCTA() {
 
         {/* Label pill */}
         <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-8" style={{
-          border: '1px solid rgba(200,40,30,0.3)',
-          background: 'rgba(200,40,30,0.07)',
+          border: '1px solid rgba(200,40,30,0.2)',
+          background: 'rgba(200,40,30,0.05)',
           backdropFilter: 'blur(10px)',
         }}>
-          <Zap style={{ width: 12, height: 12, color: 'rgba(210,60,45,0.9)' }} />
-          <span style={{ color: 'rgba(210,60,45,0.9)', fontSize: '0.62rem', letterSpacing: '0.2em', fontWeight: 700 }}>
+          <Zap style={{ width: 12, height: 12, color: 'rgba(210,60,45,0.85)' }} />
+          <span style={{ color: 'rgba(210,60,45,0.85)', fontSize: '0.62rem', letterSpacing: '0.2em', fontWeight: 700 }}>
             LET'S TALK
           </span>
         </div>
@@ -116,10 +116,10 @@ export default function ContactCTA() {
           y={40}
           style={{
             fontFamily: '"Georgia","Times New Roman",serif',
-            fontSize: 'clamp(2rem, 5vw, 3.5rem)',
+            fontSize: 'clamp(2.2rem, 5vw, 3.8rem)',
             fontWeight: 700,
             lineHeight: 1.1,
-            background: 'linear-gradient(135deg, #e03030 0%, #e06040 60%, rgba(255,255,255,0.85) 100%)',
+            background: 'linear-gradient(135deg, #ffffff 0%, #f0f0f0 50%, #cc3333 100%)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
             backgroundClip: 'text',
@@ -130,11 +130,11 @@ export default function ContactCTA() {
 
         {/* Divider ornament */}
         <div className="flex items-center justify-center gap-3 mb-7">
-          <div style={{ width: 28, height: 1, background: 'linear-gradient(to right, transparent, rgba(200,40,30,0.5))' }} />
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(200,50,40,0.7)" strokeWidth="2">
+          <div style={{ width: 28, height: 1, background: 'linear-gradient(to right, transparent, rgba(200,40,30,0.4))' }} />
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(200,50,40,0.6)" strokeWidth="2">
             <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
           </svg>
-          <div style={{ width: 28, height: 1, background: 'linear-gradient(to left, transparent, rgba(200,40,30,0.5))' }} />
+          <div style={{ width: 28, height: 1, background: 'linear-gradient(to left, transparent, rgba(200,40,30,0.4))' }} />
         </div>
 
         {/* Subtext */}
@@ -149,8 +149,8 @@ export default function ContactCTA() {
           style={{
             fontFamily: '"Georgia",serif',
             fontStyle: 'italic',
-            color: 'rgba(255,255,255,0.38)',
-            fontSize: 'clamp(0.9rem, 1.6vw, 1.05rem)',
+            color: 'rgba(255,255,255,0.45)',
+            fontSize: 'clamp(0.95rem, 1.6vw, 1.1rem)',
             lineHeight: 1.8,
           }}
         >
@@ -165,11 +165,11 @@ export default function ContactCTA() {
               onClick={handleClick}
               className="group inline-flex items-center gap-3 font-semibold relative overflow-hidden"
               style={{
-                background: 'linear-gradient(135deg, #cc2828, #d94a2a)',
+                background: 'linear-gradient(135deg, #b31d1d, #d13d1d)',
                 color: '#fff',
-                padding: '14px 36px',
-                borderRadius: 3,
-                fontSize: '0.72rem',
+                padding: '18px 46px',
+                borderRadius: '999px',
+                fontSize: '0.75rem',
                 letterSpacing: '0.16em',
                 textTransform: 'uppercase',
                 textDecoration: 'none',
@@ -177,8 +177,8 @@ export default function ContactCTA() {
               }}
               onMouseEnter={(e) => {
                 const el = e.currentTarget as HTMLAnchorElement
-                el.style.transform = 'translateY(-2px)'
-                el.style.boxShadow = '0 10px 36px rgba(200,40,40,0.4)'
+                el.style.transform = 'translateY(-3px)'
+                el.style.boxShadow = '0 12px 40px rgba(180,20,20,0.45)'
               }}
               onMouseLeave={(e) => {
                 const el = e.currentTarget as HTMLAnchorElement
@@ -188,8 +188,11 @@ export default function ContactCTA() {
             >
               {/* Shine sweep */}
               <div
-                className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out"
-                style={{ background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent)', pointerEvents: 'none' }}
+                className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-800 ease-out"
+                style={{ 
+                  background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)', 
+                  pointerEvents: 'none' 
+                }}
               />
               <Zap className="relative z-10 transition-transform duration-300 group-hover:scale-110" style={{ width: 14, height: 14 }} strokeWidth={2.5} />
               <span className="relative z-10">Request a Consultation</span>

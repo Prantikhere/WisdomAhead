@@ -4,64 +4,140 @@ import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import SplitText from '@/components/SplitText'
-import { Rocket, Shield, Target, Database, TrendingUp } from 'lucide-react'
+import {
+  Rocket,
+  Shield,
+  Target,
+  Database,
+} from 'lucide-react'
 
 gsap.registerPlugin(ScrollTrigger)
 
 const features = [
-  { icon: Rocket,   text: 'Eliminate Inefficiencies',  description: 'Reduce operational waste by 40-60%' },
-  { icon: Shield,   text: 'Complete Data Sovereignty',  description: '100% private, secure AI systems'    },
-  { icon: Database, text: 'Unlock Proprietary Data',    description: 'Decades of insights unlocked'       },
-  { icon: Target,   text: 'Board-Level Insights',       description: 'Strategic decision intelligence'    },
+  {
+    icon: Rocket,
+    text: 'Eliminate Inefficiencies',
+    description:
+      'Reduce operational waste by 40-60%',
+  },
+  {
+    icon: Shield,
+    text: 'Complete Data Sovereignty',
+    description:
+      '100% private, secure AI systems',
+  },
+  {
+    icon: Database,
+    text: 'Unlock Proprietary Data',
+    description:
+      'Decades of insights unlocked',
+  },
+  {
+    icon: Target,
+    text: 'Board-Level Insights',
+    description:
+      'Strategic decision intelligence',
+  },
 ]
 
 export default function WhatWeDo() {
-  const sectionRef   = useRef<HTMLElement>(null)
-  const labelRef     = useRef<HTMLDivElement>(null)
-  const featuresRef  = useRef<HTMLDivElement>(null)
-  const bottomRef    = useRef<HTMLDivElement>(null)
-  const dividerRef   = useRef<HTMLDivElement>(null)
+  const sectionRef =
+    useRef<HTMLElement>(null)
+
+  const labelRef =
+    useRef<HTMLDivElement>(null)
+
+  const featuresRef =
+    useRef<HTMLDivElement>(null)
+
+  const bottomRef =
+    useRef<HTMLDivElement>(null)
+
+  const dividerRef =
+    useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     if (!sectionRef.current) return
 
     const ctx = gsap.context(() => {
-      /* Label pulse in */
-      gsap.fromTo(labelRef.current,
-        { opacity: 0, x: -12 },
+      gsap.fromTo(
+        labelRef.current,
         {
-          opacity: 1, x: 0, duration: 0.6, ease: 'power2.out',
-          scrollTrigger: { trigger: sectionRef.current, start: 'top 85%', toggleActions: 'play none none none' },
+          opacity: 0,
+          y: 20,
+        },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.7,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: 'top 85%',
+          },
         }
       )
 
-      /* Feature icon columns stagger */
       if (featuresRef.current) {
-        gsap.fromTo(featuresRef.current.querySelectorAll('.feat-col'),
-          { y: 28, opacity: 0 },
+        gsap.fromTo(
+          featuresRef.current.querySelectorAll(
+            '.feat-col'
+          ),
           {
-            y: 0, opacity: 1, duration: 0.75, stagger: 0.13, ease: 'power3.out',
-            scrollTrigger: { trigger: featuresRef.current, start: 'top 82%', toggleActions: 'play none none none' },
+            y: 40,
+            opacity: 0,
+          },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.9,
+            stagger: 0.12,
+            ease: 'power3.out',
+            scrollTrigger: {
+              trigger: featuresRef.current,
+              start: 'top 82%',
+            },
           }
         )
       }
 
-      /* Divider line draw */
-      gsap.fromTo(dividerRef.current,
-        { scaleX: 0 },
+      gsap.fromTo(
+        dividerRef.current,
         {
-          scaleX: 1, duration: 1.2, ease: 'power3.inOut',
-          scrollTrigger: { trigger: dividerRef.current, start: 'top 88%', toggleActions: 'play none none none' },
+          scaleX: 0,
+          opacity: 0,
+        },
+        {
+          scaleX: 1,
+          opacity: 1,
+          duration: 1.3,
+          ease: 'power3.inOut',
+          scrollTrigger: {
+            trigger: dividerRef.current,
+            start: 'top 88%',
+          },
         }
       )
 
-      /* Bottom row pop in */
       if (bottomRef.current) {
-        gsap.fromTo(bottomRef.current.querySelectorAll('.stat-block, .cta-btn'),
-          { y: 20, opacity: 0 },
+        gsap.fromTo(
+          bottomRef.current.querySelectorAll(
+            '.stat-block, .cta-btn'
+          ),
           {
-            y: 0, opacity: 1, duration: 0.75, stagger: 0.15, ease: 'back.out(1.3)',
-            scrollTrigger: { trigger: bottomRef.current, start: 'top 88%', toggleActions: 'play none none none' },
+            y: 24,
+            opacity: 0,
+          },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.85,
+            stagger: 0.15,
+            ease: 'back.out(1.3)',
+            scrollTrigger: {
+              trigger: bottomRef.current,
+              start: 'top 88%',
+            },
           }
         )
       }
@@ -75,110 +151,351 @@ export default function WhatWeDo() {
       ref={sectionRef}
       className="relative overflow-hidden"
       style={{
-        background: 'linear-gradient(160deg, #0d0a0a 0%, #1a0c0c 40%, #0d0a0a 100%)',
-        padding: 'clamp(64px, 9vw, 120px) 0',
+        background:
+          'linear-gradient(145deg, #f3f0ea 0%, #efebe5 38%, #f5f2ed 72%, #f3f0ea 100%)',
+
+        padding:
+          'clamp(80px, 10vw, 140px) 0',
       }}
     >
-      {/* Atmosphere overlays */}
-      <div className="absolute inset-0 pointer-events-none">
-        {/* Left red glow */}
-        <div
-          className="absolute"
-          style={{
-            top: 0, left: 0, right: 0, bottom: 0,
-            background: 'radial-gradient(ellipse 60% 55% at 20% 50%, rgba(180,30,30,0.18) 0%, transparent 65%)',
-          }}
-        />
-        {/* Subtle top vignette */}
+      {/* Atmosphere */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+
+        {/* Soft luxury glow */}
         <div
           className="absolute inset-0"
           style={{
-            background: 'radial-gradient(ellipse 90% 40% at 50% 0%, rgba(200,40,40,0.07) 0%, transparent 70%)',
+            background:
+              'radial-gradient(circle at 50% 18%, rgba(120,0,0,0.035), transparent 58%)',
           }}
         />
-        {/* Noise grain */}
+
+        {/* Floating cinematic orb */}
         <div
-          className="absolute inset-0 opacity-[0.025]"
+          className="absolute rounded-full"
           style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E")`,
-            backgroundRepeat: 'repeat',
-            backgroundSize: '160px 160px',
+            width: '42vw',
+            height: '42vw',
+            top: '-18vw',
+            right: '-10vw',
+
+            background:
+              'radial-gradient(circle, rgba(120,0,0,0.06), transparent 70%)',
+
+            filter: 'blur(70px)',
+
+            animation:
+              'orbFloat 18s ease-in-out infinite alternate',
+          }}
+        />
+
+        {/* Secondary orb */}
+        <div
+          className="absolute rounded-full"
+          style={{
+            width: '28vw',
+            height: '28vw',
+            bottom: '-10vw',
+            left: '-8vw',
+
+            background:
+              'radial-gradient(circle, rgba(120,0,0,0.04), transparent 70%)',
+
+            filter: 'blur(60px)',
+
+            animation:
+              'orbFloatReverse 20s ease-in-out infinite alternate',
+          }}
+        />
+
+        {/* Floating particles */}
+        {[...Array(28)].map((_, i) => (
+          <div
+            key={i}
+            className="absolute rounded-full"
+            style={{
+              width:
+                i % 3 === 0 ? 4 : 2,
+
+              height:
+                i % 3 === 0 ? 4 : 2,
+
+              background:
+                i % 2 === 0
+                  ? 'rgba(130,0,0,0.30)'
+                  : 'rgba(180,20,20,0.22)',
+
+              left: `${(i * 4.1) % 100}%`,
+              top: `${(i * 7.2) % 100}%`,
+
+              boxShadow:
+                '0 0 12px rgba(120,0,0,0.12)',
+
+              animation: `particleFloat ${
+                6 + (i % 5)
+              }s ease-in-out infinite`,
+
+              animationDelay: `${i * 0.25}s`,
+            }}
+          />
+        ))}
+
+        {/* Editorial texture */}
+        <div
+          className="absolute inset-0 opacity-[0.02]"
+          style={{
+            backgroundImage:
+              'radial-gradient(circle, rgba(110,0,0,0.35) 1px, transparent 1px)',
+
+            backgroundSize:
+              '32px 32px',
+          }}
+        />
+
+        {/* Film grain */}
+        <div
+          className="absolute inset-0 opacity-[0.015]"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
+
+            backgroundSize:
+              '180px 180px',
           }}
         />
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-10 lg:px-16">
 
-        {/* ── TOP LABEL ── */}
-        <div ref={labelRef} className="flex items-center gap-2 mb-8" style={{ opacity: 0 }}>
-          <span style={{ color: 'rgba(220,60,60,0.9)', fontSize: '0.72rem', letterSpacing: '0.18em', fontWeight: 600 }}>
-            ✦ WHAT WE DO
-          </span>
+        {/* LABEL */}
+        <div
+          ref={labelRef}
+          className="mb-10"
+          style={{
+            opacity: 0,
+          }}
+        >
+          <div
+            className="inline-flex items-center gap-2 px-5 py-2 rounded-full transition-all duration-500 hover:scale-[1.03]"
+            style={{
+              border:
+                '1px solid rgba(120,0,0,0.14)',
+
+              background:
+                'rgba(255,255,255,0.6)',
+
+              backdropFilter:
+                'blur(10px)',
+
+              boxShadow:
+                '0 4px 20px rgba(120,0,0,0.03)',
+            }}
+          >
+            <span
+              style={{
+                width: 6,
+                height: 6,
+
+                borderRadius: '50%',
+
+                background:
+                  'linear-gradient(135deg, #4d0202 0%, #8f1111 100%)',
+
+                display: 'inline-block',
+
+                animation:
+                  'pulseDot 2.8s ease-in-out infinite',
+              }}
+            />
+
+            <span
+              style={{
+                color:
+                  'rgba(90,0,0,0.82)',
+
+                fontSize: '0.68rem',
+
+                letterSpacing:
+                  '0.22em',
+
+                fontWeight: 700,
+
+                textTransform:
+                  'uppercase',
+              }}
+            >
+              What We Do
+            </span>
+          </div>
         </div>
 
-        {/* ── HEADING + SUBTITLE ── */}
+        {/* HEADING */}
         <SplitText
           as="h2"
           type="lines"
           stagger={0.09}
           duration={1}
           y={44}
-          className="font-bold text-white leading-[1.08] mb-5"
+          className="font-bold leading-[1.02] mb-6"
           style={{
-            fontSize: 'clamp(2rem, 5vw, 3.5rem)',
-            maxWidth: '680px',
-            fontFamily: '"Georgia", "Times New Roman", serif',
+            fontSize:
+              'clamp(2.3rem, 5.5vw, 4.4rem)',
+
+            maxWidth: '760px',
+
+            fontFamily:
+              '"Georgia", "Times New Roman", serif',
+
+            color: '#140909',
           }}
         >
           Operational Intelligence for Media Enterprise
         </SplitText>
 
+        {/* Subtitle */}
         <p
-          className="mb-12 leading-relaxed"
+          className="mb-16 leading-relaxed"
           style={{
-            color: 'rgba(255,255,255,0.55)',
-            fontSize: 'clamp(0.85rem, 1.5vw, 1rem)',
-            maxWidth: '580px',
+            color:
+              'rgba(30,8,8,0.52)',
+
+            fontSize:
+              'clamp(0.86rem, 1.5vw, 1rem)',
+
+            maxWidth: '600px',
+
+            lineHeight: 1.9,
           }}
         >
-          TWe architect sovereign AI systems that redesign how media organizations operate — eliminating inefficiencies trapped in legacy workflows, unlocking decades of proprietary data, and enabling board-level decision-making with complete data sovereignty.
+          We architect sovereign AI systems
+          that redesign how media
+          organizations operate —
+          eliminating inefficiencies trapped
+          in legacy workflows, unlocking
+          decades of proprietary data, and
+          enabling board-level
+          decision-making with complete data
+          sovereignty.
         </p>
 
-        {/* ── FEATURES ROW (4 columns, icon-above-text) ── */}
+        {/* FEATURES */}
         <div
           ref={featuresRef}
-          className="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-8 mb-12"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16"
         >
           {features.map((feature, i) => (
             <div
               key={i}
-              className="feat-col group flex flex-col gap-3"
-              style={{ opacity: 0 }}
+              className="feat-col group flex flex-col gap-5 rounded-[28px] relative overflow-hidden"
+              style={{
+                opacity: 0,
+
+                padding:
+                  '28px 24px',
+
+                background:
+                  'rgba(255,255,255,0.72)',
+
+                backdropFilter:
+                  'blur(14px)',
+
+                border:
+                  '1px solid rgba(120,0,0,0.08)',
+
+                boxShadow:
+                  '0 10px 40px rgba(70,0,0,0.05)',
+
+                transition:
+                  'all 0.45s cubic-bezier(0.22,1,0.36,1)',
+              }}
+              onMouseEnter={(e) => {
+                const el =
+                  e.currentTarget as HTMLDivElement
+
+                el.style.transform =
+                  'translateY(-8px)'
+
+                el.style.boxShadow =
+                  '0 22px 60px rgba(70,0,0,0.10)'
+
+                el.style.borderColor =
+                  'rgba(120,0,0,0.18)'
+              }}
+              onMouseLeave={(e) => {
+                const el =
+                  e.currentTarget as HTMLDivElement
+
+                el.style.transform =
+                  'translateY(0px)'
+
+                el.style.boxShadow =
+                  '0 10px 40px rgba(70,0,0,0.05)'
+
+                el.style.borderColor =
+                  'rgba(120,0,0,0.08)'
+              }}
             >
+              {/* Hover glow */}
+              <div
+                className="absolute top-0 left-0 w-full h-px opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                style={{
+                  background:
+                    'linear-gradient(90deg, transparent, rgba(120,0,0,0.85), transparent)',
+                }}
+              />
+
               {/* Icon */}
               <div
-                className="flex items-center justify-center transition-all duration-300 group-hover:scale-110"
+                className="flex items-center justify-center transition-all duration-500 group-hover:scale-110"
                 style={{
-                  width: 36, height: 36,
-                  borderRadius: 8,
-                  background: 'rgba(200,40,40,0.15)',
-                  border: '1px solid rgba(200,40,40,0.25)',
+                  width: 50,
+                  height: 50,
+
+                  borderRadius: 16,
+
+                  background:
+                    'linear-gradient(135deg, rgba(120,0,0,0.08), rgba(180,20,20,0.05))',
+
+                  border:
+                    '1px solid rgba(120,0,0,0.14)',
+
+                  flexShrink: 0,
                 }}
               >
                 <feature.icon
-                  style={{ width: 16, height: 16, color: 'rgba(220,80,60,0.95)' }}
-                  strokeWidth={2}
+                  style={{
+                    width: 18,
+                    height: 18,
+                    color: '#7a0707',
+                  }}
+                  strokeWidth={2.2}
                 />
               </div>
-              {/* Text */}
+
               <div>
                 <h4
-                  className="font-semibold leading-snug mb-1 transition-colors duration-300 group-hover:text-[rgba(220,80,60,1)]"
-                  style={{ color: 'rgba(220,80,60,0.9)', fontSize: '0.82rem' }}
+                  className="font-semibold leading-snug mb-2"
+                  style={{
+                    color: '#140909',
+
+                    fontSize: '0.92rem',
+
+                    fontFamily:
+                      '"Georgia", serif',
+                  }}
                 >
                   {feature.text}
                 </h4>
-                <p style={{ color: 'rgba(255,255,255,0.45)', fontSize: '0.78rem', lineHeight: 1.5 }}>
+
+                <p
+                  style={{
+                    color:
+                      'rgba(30,8,8,0.48)',
+
+                    fontSize: '0.78rem',
+
+                    lineHeight: 1.65,
+                  }}
+                >
                   {feature.description}
                 </p>
               </div>
@@ -186,138 +503,323 @@ export default function WhatWeDo() {
           ))}
         </div>
 
-        {/* ── FULL-WIDTH DIVIDER ── */}
+        {/* DIVIDER */}
         <div
           ref={dividerRef}
-          className="mb-10 origin-left"
+          className="mb-14 origin-left"
           style={{
-            height: '1px',
-            background: 'linear-gradient(to right, rgba(180,40,40,0.4), rgba(255,255,255,0.08) 50%, transparent)',
-            transformOrigin: 'left center',
+            height: 1,
+
+            background:
+              'linear-gradient(to right, rgba(120,0,0,0.35), rgba(180,20,20,0.10) 50%, transparent)',
+
+            transformOrigin:
+              'left center',
           }}
         />
 
-        {/* ── BOTTOM ROW: Stats + CTA ── */}
+        {/* BOTTOM */}
         <div
           ref={bottomRef}
-          className="flex flex-wrap items-center gap-x-16 gap-y-6"
+          className="flex flex-wrap items-center gap-x-14 gap-y-8"
         >
           {/* Stat 1 */}
-          <div className="stat-block flex items-baseline gap-2" style={{ opacity: 0 }}>
+          <div
+            className="stat-block flex flex-col"
+            style={{
+              opacity: 0,
+              minWidth: '180px',
+            }}
+          >
             <span
               className="font-bold leading-none"
               style={{
-                fontSize: 'clamp(2.2rem, 5vw, 3.2rem)',
-                background: 'linear-gradient(135deg, #e83a3a 0%, #e8714a 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
+                fontSize:
+                  'clamp(3rem, 7vw, 5rem)',
+
+                background:
+                  'linear-gradient(90deg, #2a0000 0%, #6f0808 45%, #320000 100%)',
+
+                WebkitBackgroundClip:
+                  'text',
+
+                WebkitTextFillColor:
+                  'transparent',
+
                 backgroundClip: 'text',
-                fontFamily: '"Georgia", serif',
+
+                fontFamily:
+                  '"Georgia", serif',
+
+                letterSpacing:
+                  '-0.04em',
+
+                animation:
+                  'floatCounter 4s ease-in-out infinite',
               }}
             >
               40–60%
             </span>
-            <TrendingUp
-              style={{ width: 20, height: 20, color: 'rgba(220,80,60,0.8)', flexShrink: 0 }}
-              strokeWidth={2.5}
-            />
+
             <span
               style={{
-                color: 'rgba(255,255,255,0.45)',
-                fontSize: '0.7rem',
-                letterSpacing: '0.12em',
-                textTransform: 'uppercase',
-                maxWidth: 120,
-                lineHeight: 1.3,
+                marginTop: '10px',
+
+                color:
+                  'rgba(30,8,8,0.45)',
+
+                fontSize: '0.72rem',
+
+                letterSpacing:
+                  '0.18em',
+
+                textTransform:
+                  'uppercase',
+
+                lineHeight: 1.6,
               }}
             >
-              OPERATIONAL EFFICIENCY GAINED
+              Operational Efficiency
+              Gained
             </span>
           </div>
 
           {/* Stat 2 */}
-          <div className="stat-block flex items-baseline gap-2" style={{ opacity: 0 }}>
+          <div
+            className="stat-block flex flex-col"
+            style={{
+              opacity: 0,
+              minWidth: '180px',
+            }}
+          >
             <span
               className="font-bold leading-none"
               style={{
-                fontSize: 'clamp(2.2rem, 5vw, 3.2rem)',
-                background: 'linear-gradient(135deg, #e83a3a 0%, #e8714a 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
+                fontSize:
+                  'clamp(3rem, 7vw, 5rem)',
+
+                background:
+                  'linear-gradient(90deg, #2a0000 0%, #6f0808 45%, #320000 100%)',
+
+                WebkitBackgroundClip:
+                  'text',
+
+                WebkitTextFillColor:
+                  'transparent',
+
                 backgroundClip: 'text',
-                fontFamily: '"Georgia", serif',
+
+                fontFamily:
+                  '"Georgia", serif',
+
+                letterSpacing:
+                  '-0.04em',
+
+                animation:
+                  'floatCounter 4s ease-in-out infinite',
+                animationDelay: '1s',
               }}
             >
               100%
             </span>
-            <Shield
-              style={{ width: 18, height: 18, color: 'rgba(220,80,60,0.8)', flexShrink: 0 }}
-              strokeWidth={2.5}
-            />
+
             <span
               style={{
-                color: 'rgba(255,255,255,0.45)',
-                fontSize: '0.7rem',
-                letterSpacing: '0.12em',
-                textTransform: 'uppercase',
-                maxWidth: 120,
-                lineHeight: 1.3,
+                marginTop: '10px',
+
+                color:
+                  'rgba(30,8,8,0.45)',
+
+                fontSize: '0.72rem',
+
+                letterSpacing:
+                  '0.18em',
+
+                textTransform:
+                  'uppercase',
+
+                lineHeight: 1.6,
               }}
             >
-              DATA SOVEREIGNTY MAINTAINED
+              Data Sovereignty
+              Maintained
             </span>
           </div>
 
           {/* CTA */}
-          <div className="cta-btn ml-auto" style={{ opacity: 0 }}>
+          <div
+            className="cta-btn ml-auto"
+            style={{
+              opacity: 0,
+            }}
+          >
             <a
               href="#contact"
               onClick={(e) => {
                 e.preventDefault()
-                document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })
+
+                document
+                  .getElementById('contact')
+                  ?.scrollIntoView({
+                    behavior: 'smooth',
+                  })
               }}
               className="group inline-flex items-center gap-3 font-semibold relative overflow-hidden"
               style={{
-                background: 'linear-gradient(135deg, #cc2828, #d94a2a)',
+                background:
+                  'linear-gradient(90deg, #2a0000 0%, #6f0808 45%, #320000 100%)',
+
                 color: '#fff',
-                padding: '14px 28px',
-                borderRadius: 4,
-                fontSize: '0.78rem',
-                letterSpacing: '0.12em',
-                textTransform: 'uppercase',
-                textDecoration: 'none',
-                transition: 'transform 0.25s ease, box-shadow 0.25s ease',
+
+                padding:
+                  '15px 34px',
+
+                borderRadius: 999,
+
+                fontSize: '0.75rem',
+
+                letterSpacing:
+                  '0.14em',
+
+                textTransform:
+                  'uppercase',
+
+                textDecoration:
+                  'none',
+
+                boxShadow:
+                  '0 10px 32px rgba(90,0,0,0.18)',
+
+                transition:
+                  'transform 0.25s ease, box-shadow 0.25s ease',
               }}
-              onMouseEnter={e => {
-                (e.currentTarget as HTMLAnchorElement).style.transform = 'translateY(-2px)'
-                ;(e.currentTarget as HTMLAnchorElement).style.boxShadow = '0 8px 32px rgba(200,40,40,0.35)'
+              onMouseEnter={(e) => {
+                const el =
+                  e.currentTarget as HTMLAnchorElement
+
+                el.style.transform =
+                  'translateY(-2px)'
+
+                el.style.boxShadow =
+                  '0 18px 42px rgba(90,0,0,0.32)'
               }}
-              onMouseLeave={e => {
-                (e.currentTarget as HTMLAnchorElement).style.transform = 'translateY(0)'
-                ;(e.currentTarget as HTMLAnchorElement).style.boxShadow = 'none'
+              onMouseLeave={(e) => {
+                const el =
+                  e.currentTarget as HTMLAnchorElement
+
+                el.style.transform =
+                  'translateY(0px)'
+
+                el.style.boxShadow =
+                  '0 10px 32px rgba(90,0,0,0.18)'
               }}
             >
-              {/* Shine sweep */}
+              {/* Shine */}
               <div
-                className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out"
+                className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out rounded-full"
                 style={{
-                  background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent)',
-                  pointerEvents: 'none',
+                  background:
+                    'linear-gradient(90deg, transparent, rgba(255,255,255,0.22), transparent)',
+
+                  pointerEvents:
+                    'none',
                 }}
               />
-              <span className="relative z-10">START YOUR TRANSFORMATION</span>
+
+              <Rocket
+                className="relative z-10 w-4 h-4 transition-transform duration-300 group-hover:rotate-12"
+                strokeWidth={2.5}
+              />
+
+              <span className="relative z-10">
+                Start Your
+                Transformation
+              </span>
+
               <svg
                 className="relative z-10 transition-transform duration-300 group-hover:translate-x-1"
-                style={{ width: 16, height: 16 }}
-                fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"
+                style={{
+                  width: 14,
+                  height: 14,
+                }}
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                viewBox="0 0 24 24"
               >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M13 7l5 5m0 0l-5 5m5-5H6"
+                />
               </svg>
             </a>
           </div>
         </div>
-
       </div>
+
+      <style>{`
+        @keyframes pulseDot {
+          0% {
+            opacity: 0.7;
+            transform: scale(1);
+          }
+
+          50% {
+            opacity: 1;
+            transform: scale(1.4);
+          }
+
+          100% {
+            opacity: 0.7;
+            transform: scale(1);
+          }
+        }
+
+        @keyframes particleFloat {
+          0%,100% {
+            transform: translateY(0px);
+          }
+
+          50% {
+            transform: translateY(-12px);
+          }
+        }
+
+        @keyframes orbFloat {
+          0% {
+            transform: translate(0px,0px);
+          }
+
+          100% {
+            transform: translate(-40px,30px);
+          }
+        }
+
+        @keyframes orbFloatReverse {
+          0% {
+            transform: translate(0px,0px);
+          }
+
+          100% {
+            transform: translate(40px,-25px);
+          }
+        }
+
+        @keyframes floatCounter {
+          0% {
+            transform: translateY(0px);
+          }
+
+          50% {
+            transform: translateY(-4px);
+          }
+
+          100% {
+            transform: translateY(0px);
+          }
+        }
+      `}</style>
     </section>
   )
 }

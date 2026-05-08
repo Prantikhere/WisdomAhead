@@ -59,14 +59,26 @@ export default function Navigation() {
     <>
       <nav
         ref={navRef}
-        className="fixed top-0 left-0 w-full z-[100] transition-all duration-500"
+        className="fixed top-0 left-0 w-full z-[9999] transition-all duration-500"
         style={{
-          height: scrolled ? '85px' : '105px', // Increased height to fit larger logo
-          background: scrolled ? 'rgba(10, 10, 10, 0.85)' : 'transparent',
-          backdropFilter: scrolled ? 'blur(20px)' : 'none',
-          WebkitBackdropFilter: scrolled ? 'blur(20px)' : 'none',
-          borderBottom: scrolled ? '1px solid rgba(220, 38, 38, 0.2)' : '1px solid transparent',
-        }}
+ height: scrolled ? '72px' : '82px',
+
+  background:
+    'linear-gradient(90deg, rgba(32,0,0,0.96) 0%, rgba(92,8,8,0.94) 45%, rgba(48,0,0,0.96) 100%)',
+
+  backdropFilter: 'blur(20px)',
+  WebkitBackdropFilter: 'blur(20px)',
+
+  borderBottom: '1px solid rgba(255,120,120,0.12)',
+
+  transform: 'translateZ(0)',
+  willChange: 'transform, backdrop-filter',
+  isolation: 'isolate',
+
+  boxShadow: scrolled
+    ? '0 10px 40px rgba(0,0,0,0.28)'
+    : '0 6px 24px rgba(0,0,0,0.18)',
+}}
       >
         <div className="container-main h-full flex items-center justify-between px-6">
           {/* --- BIGGER LOGO --- */}
@@ -109,59 +121,423 @@ export default function Navigation() {
           </div>
 
           {/* Mobile Toggle */}
-          <button
-            onClick={() => setMobileOpen(!mobileOpen)}
-            className="lg:hidden relative z-[110] p-2 bg-white/5 rounded-lg text-white transition-colors hover:bg-red-600/20"
-          >
-            {mobileOpen ? <X size={28} /> : <Menu size={28} />}
-          </button>
+          {/* Mobile Toggle */}
+<button
+  onClick={() => setMobileOpen(!mobileOpen)}
+  className="
+    lg:hidden
+    relative
+    z-[110]
+    w-12
+    h-12
+    flex
+    items-center
+    justify-center
+    rounded-2xl
+    overflow-hidden
+    transition-all
+    duration-500
+    group
+  "
+  style={{
+    background:
+      mobileOpen
+        ? 'linear-gradient(135deg, rgba(120,0,0,0.95) 0%, rgba(185,28,28,0.92) 100%)'
+        : 'rgba(255,255,255,0.06)',
+
+    border:
+      mobileOpen
+        ? '1px solid rgba(255,120,120,0.25)'
+        : '1px solid rgba(255,255,255,0.08)',
+
+    boxShadow: mobileOpen
+      ? '0 12px 30px rgba(120,0,0,0.28)'
+      : '0 6px 20px rgba(0,0,0,0.16)',
+
+    backdropFilter: 'blur(14px)',
+    WebkitBackdropFilter:
+      'blur(14px)',
+  }}
+>
+  {/* Glow */}
+  <div
+    className="
+      absolute
+      inset-0
+      opacity-0
+      group-hover:opacity-100
+      transition-opacity
+      duration-500
+    "
+    style={{
+      background:
+        'radial-gradient(circle at center, rgba(255,80,80,0.22), transparent 70%)',
+    }}
+  />
+
+  {/* Animated lines */}
+  <div className="relative w-6 h-6 flex items-center justify-center">
+    <span
+      className="
+        absolute
+        w-6
+        h-[2px]
+        rounded-full
+        transition-all
+        duration-500
+      "
+      style={{
+        background:
+          'rgba(255,255,255,0.95)',
+
+        transform: mobileOpen
+          ? 'rotate(45deg)'
+          : 'translateY(-7px)',
+      }}
+    />
+
+    <span
+      className="
+        absolute
+        w-6
+        h-[2px]
+        rounded-full
+        transition-all
+        duration-500
+      "
+      style={{
+        background:
+          'rgba(255,255,255,0.95)',
+
+        opacity: mobileOpen
+          ? 0
+          : 1,
+
+        transform: mobileOpen
+          ? 'scaleX(0)'
+          : 'scaleX(1)',
+      }}
+    />
+
+    <span
+      className="
+        absolute
+        w-6
+        h-[2px]
+        rounded-full
+        transition-all
+        duration-500
+      "
+      style={{
+        background:
+          'rgba(255,255,255,0.95)',
+
+        transform: mobileOpen
+          ? 'rotate(-45deg)'
+          : 'translateY(7px)',
+      }}
+    />
+  </div>
+</button>
         </div>
 
-        {/* --- MOBILE DROPDOWN OVERLAY --- */}
-        <div 
-          className={`fixed inset-0 lg:hidden transition-all duration-700 ease-in-out ${
-            mobileOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
-          }`}
-        >
-          {/* Note: The main blur comes from your GlobalBackdrop component */}
-          <div 
-            className={`relative w-full bg-gradient-to-b from-[#0a0a0a] to-transparent border-b border-red-900/30 px-6 pt-28 pb-12 transition-transform duration-500 ${
-              mobileOpen ? 'translate-y-0' : '-translate-y-full'
-            }`}
+       {/* --- MOBILE DROPDOWN OVERLAY --- */}
+<div
+  className={`fixed inset-x-0 lg:hidden transition-all duration-500 ease-out z-[100] ${
+    mobileOpen
+      ? 'opacity-100 visible'
+      : 'opacity-0 invisible'
+  }`}
+  style={{
+    top: scrolled
+      ? '72px'
+      : '82px',
+
+    height: `calc(100vh - ${
+      scrolled
+        ? '72px'
+        : '82px'
+    })`,
+  }}
+>
+  
+  {/* PANEL */}
+  <div
+    className={`
+      relative
+      h-full
+      overflow-y-auto
+      px-5
+      pt-5
+      pb-8
+      transition-all
+      duration-500
+      ${
+        mobileOpen
+          ? 'translate-y-0'
+          : '-translate-y-8'
+      }
+    `}
+    style={{
+      background:
+        'linear-gradient(180deg, #f4f1eb 0%, #f2ede7 40%, #efe8df 100%)',
+
+      borderTop:
+        '1px solid rgba(120,0,0,0.08)',
+
+      boxShadow:
+        '0 20px 60px rgba(0,0,0,0.12)',
+    }}
+  >
+    {/* Ambient glow */}
+    <div
+      className="absolute inset-0 pointer-events-none"
+      style={{
+        background:
+          'radial-gradient(circle at top right, rgba(120,0,0,0.06), transparent 55%)',
+      }}
+    />
+
+    {/* Floating particles */}
+    {[...Array(14)].map(
+      (_, i) => (
+        <div
+          key={i}
+          className="absolute rounded-full pointer-events-none"
+          style={{
+            width:
+              i % 2 === 0
+                ? 4
+                : 2,
+
+            height:
+              i % 2 === 0
+                ? 4
+                : 2,
+
+            background:
+              'rgba(140,0,0,0.18)',
+
+            left: `${
+              (i * 7.3) %
+              100
+            }%`,
+
+            top: `${
+              (i * 9.1) %
+              100
+            }%`,
+
+            animation: `particleFloat ${
+              4 +
+              (i % 4)
+            }s ease-in-out infinite`,
+          }}
+        />
+      )
+    )}
+
+    {/* MENU ITEMS */}
+    <div className="relative z-[2] flex flex-col gap-4">
+
+      {navLinks.map(
+        (link, i) => (
+          <Link
+            key={link.label}
+            to={link.href}
+            onClick={(e) =>
+              handleNavClick(
+                e,
+                link.href
+              )
+            }
+            className="
+              group
+              relative
+              overflow-hidden
+              flex
+              items-center
+              justify-between
+              rounded-[24px]
+              p-5
+              transition-all
+              duration-500
+            "
+            style={{
+              background:
+                'rgba(255,255,255,0.72)',
+
+              border:
+                '1px solid rgba(120,0,0,0.08)',
+
+              backdropFilter:
+                'blur(12px)',
+
+              WebkitBackdropFilter:
+                'blur(12px)',
+
+              boxShadow:
+                '0 10px 30px rgba(120,0,0,0.04)',
+
+              transitionDelay: `${i * 70}ms`,
+
+              transform:
+                mobileOpen
+                  ? 'translateY(0px)'
+                  : 'translateY(20px)',
+            }}
+            onMouseEnter={(
+              e
+            ) => {
+              e.currentTarget.style.transform =
+                'translateY(-3px)'
+
+              e.currentTarget.style.borderColor =
+                'rgba(120,0,0,0.18)'
+
+              e.currentTarget.style.boxShadow =
+                '0 16px 40px rgba(120,0,0,0.08)'
+            }}
+            onMouseLeave={(
+              e
+            ) => {
+              e.currentTarget.style.transform =
+                'translateY(0px)'
+
+              e.currentTarget.style.borderColor =
+                'rgba(120,0,0,0.08)'
+
+              e.currentTarget.style.boxShadow =
+                '0 10px 30px rgba(120,0,0,0.04)'
+            }}
           >
-            <div className="flex flex-col gap-4">
-              {navLinks.map((link, i) => (
-                <Link
-                  key={link.label}
-                  to={link.href}
-                  onClick={(e) => handleNavClick(e, link.href)}
-                  className="flex items-center justify-between p-4 rounded-xl bg-white/5 border border-white/5 hover:border-red-500/50 hover:bg-red-500/10 transition-all group"
-                  style={{ 
-                    transitionDelay: `${i * 50}ms`,
-                    transform: mobileOpen ? 'translateX(0)' : 'translateX(-20px)'
-                  }}
-                >
-                  <div className="flex items-center gap-4">
-                    <div className="p-2 rounded-lg bg-red-500/10 text-red-500">
-                      <link.icon size={22} />
-                    </div>
-                    <span className="text-lg font-medium text-white">{link.label}</span>
-                  </div>
-                  <ChevronRight size={18} className="text-white/20 group-hover:text-red-500 group-hover:translate-x-1 transition-all" />
-                </Link>
-              ))}
-              
-              <Link
-                to="/#contact"
-                onClick={() => setMobileOpen(false)}
-                className="mt-4 w-full py-5 rounded-xl text-center text-white font-bold text-lg shadow-lg"
-                style={{ background: 'linear-gradient(135deg, #dc2626 0%, #991b1b 100%)' }}
+            {/* Glow */}
+            <div
+              className="
+                absolute
+                inset-0
+                opacity-0
+                group-hover:opacity-100
+                transition-opacity
+                duration-500
+              "
+              style={{
+                background:
+                  'radial-gradient(circle at top right, rgba(120,0,0,0.05), transparent 70%)',
+              }}
+            />
+
+            <div className="relative z-[2] flex items-center gap-4">
+
+              {/* Icon */}
+              <div
+                className="
+                  flex
+                  items-center
+                  justify-center
+                  w-12
+                  h-12
+                  rounded-2xl
+                  transition-all
+                  duration-500
+                "
+                style={{
+                  background:
+                    'linear-gradient(135deg, rgba(120,0,0,0.10), rgba(181,22,22,0.14))',
+
+                  border:
+                    '1px solid rgba(120,0,0,0.08)',
+                }}
               >
-                Get Started
-              </Link>
+                <link.icon
+                  size={22}
+                  color="#7a0707"
+                />
+              </div>
+
+              {/* Label */}
+              <span
+                style={{
+                  color:
+                    '#140909',
+
+                  fontSize:
+                    '1.05rem',
+
+                  fontWeight: 700,
+                }}
+              >
+                {link.label}
+              </span>
             </div>
-          </div>
-        </div>
+
+            {/* Arrow */}
+            <ChevronRight
+              size={20}
+              className="
+                relative
+                z-[2]
+                transition-all
+                duration-500
+                group-hover:translate-x-1
+              "
+              color="rgba(120,0,0,0.42)"
+            />
+          </Link>
+        )
+      )}
+
+      {/* CTA */}
+      <Link
+        to="/#contact"
+        onClick={() =>
+          setMobileOpen(false)
+        }
+        className="
+          relative
+          overflow-hidden
+          mt-3
+          w-full
+          py-5
+          rounded-[24px]
+          text-center
+          text-white
+          font-bold
+          text-lg
+          transition-all
+          duration-500
+          hover:scale-[1.02]
+        "
+        style={{
+          background:
+            'linear-gradient(135deg, #6f0808 0%, #b51616 100%)',
+
+          boxShadow:
+            '0 18px 40px rgba(120,0,0,0.20)',
+        }}
+      >
+        <span className="relative z-[2]">
+          Get Started
+        </span>
+
+        <div
+          className="
+            absolute
+            inset-0
+            opacity-0
+            hover:opacity-100
+            transition-opacity
+            duration-500
+          "
+          style={{
+            background:
+              'linear-gradient(135deg, rgba(255,255,255,0.10), transparent)',
+          }}
+        />
+      </Link>
+    </div>
+  </div>
+</div>
       </nav>
 
       {/* FIXED CSS BLOCK (No 'jsx' attribute to avoid TS errors) */}

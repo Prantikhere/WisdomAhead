@@ -9,6 +9,8 @@ import GrainOverlay from './components/GrainOverlay'
 import FloatingParticles from './components/FloatingParticles'
 import CursorSpotlight from './components/CursorSpotlight'
 import PageTransition from './components/PageTransition'
+import GlobalBackdrop from './components/GlobalBackdrop'
+import Navigation from './components/Navigation'
 
 function ScrollToTop() {
   const { pathname } = useLocation()
@@ -25,6 +27,7 @@ export default function App() {
       <GrainOverlay />
       <FloatingParticles />
       <CursorSpotlight />
+      <GlobalBackdrop />
       <PageTransition>
         <ScrollToTop />
         <Routes>

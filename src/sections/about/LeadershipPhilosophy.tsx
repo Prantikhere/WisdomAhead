@@ -6,28 +6,98 @@ import SplitText from '@/components/SplitText'
 gsap.registerPlugin(ScrollTrigger)
 
 export default function LeadershipPhilosophy() {
-  const sectionRef = useRef<HTMLElement>(null)
-  const bodyRef    = useRef<HTMLParagraphElement>(null)
-  const glowRef    = useRef<HTMLDivElement>(null)
+  const sectionRef =
+    useRef<HTMLElement>(null)
+
+  const bodyRef =
+    useRef<HTMLParagraphElement>(null)
+
+  const glowRef =
+    useRef<HTMLDivElement>(null)
+
+  const iconRef =
+    useRef<HTMLDivElement>(null)
+
+  const dividerRef =
+    useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     if (!sectionRef.current) return
+
     const ctx = gsap.context(() => {
-      gsap.fromTo(glowRef.current,
-        { opacity:0, scale:0.8 },
+      // Breathing glow
+      gsap.fromTo(
+        glowRef.current,
         {
-          opacity:1, scale:1, duration:1.6, ease:'power2.out',
-          scrollTrigger:{ trigger:sectionRef.current, start:'top 75%', toggleActions:'play none none none' },
+          opacity: 0,
+          scale: 0.82,
+        },
+        {
+          opacity: 1,
+          scale: 1.08,
+          duration: 3.2,
+          repeat: -1,
+          yoyo: true,
+          ease: 'sine.inOut',
+          scrollTrigger: {
+            trigger:
+              sectionRef.current,
+            start: 'top 80%',
+          },
         }
       )
-      gsap.fromTo(bodyRef.current,
-        { y:30, opacity:0 },
+
+      // Body text reveal
+      gsap.fromTo(
+        bodyRef.current,
         {
-          y:0, opacity:1, duration:0.8, delay:0.3, ease:'power3.out',
-          scrollTrigger:{ trigger:bodyRef.current, start:'top 85%', toggleActions:'play none none none' },
+          y: 32,
+          opacity: 0,
+        },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 1.4,
+          delay: 0.5,
+          ease: 'power4.out',
+          scrollTrigger: {
+            trigger:
+              bodyRef.current,
+            start: 'top 88%',
+          },
+        }
+      )
+
+      // Floating ornament
+      gsap.to(iconRef.current, {
+        y: -12,
+        duration: 2.2,
+        repeat: -1,
+        yoyo: true,
+        ease: 'sine.inOut',
+      })
+
+      // Divider animation
+      gsap.fromTo(
+        dividerRef.current,
+        {
+          scaleY: 0,
+          opacity: 0,
+        },
+        {
+          scaleY: 1,
+          opacity: 1,
+          duration: 1.4,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger:
+              dividerRef.current,
+            start: 'top 90%',
+          },
         }
       )
     }, sectionRef)
+
     return () => ctx.revert()
   }, [])
 
@@ -36,120 +106,409 @@ export default function LeadershipPhilosophy() {
       ref={sectionRef}
       className="relative overflow-hidden"
       style={{
-        padding:'clamp(140px, 20vw, 300px) 0',
-        background:'linear-gradient(180deg, #080606 0%, #110a0a 50%, #080606 100%)',
-        borderTop:'1px solid rgba(255,255,255,0.04)',
+        padding:
+          'clamp(140px, 18vw, 280px) 0',
+
+        background:
+          'linear-gradient(145deg, #f3f0ea 0%, #efebe5 38%, #f5f2ed 72%, #f3f0ea 100%)',
       }}
     >
-      {/* Grain */}
-      <div className="absolute inset-0 pointer-events-none opacity-[0.022]" style={{
-        backgroundImage:`url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
-        backgroundSize:'160px 160px',
-      }} />
+      {/* ATMOSPHERE */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
 
-      {/* Dot grid */}
-      <div className="absolute inset-0 pointer-events-none opacity-[0.025]" style={{
-        backgroundImage:'radial-gradient(circle, rgba(255,255,255,0.7) 1px, transparent 1px)',
-        backgroundSize:'40px 40px',
-      }} />
+        {/* Main cinematic glow */}
+        <div
+          ref={glowRef}
+          className="absolute rounded-full"
+          style={{
+            top: '45%',
+            left: '50%',
 
-      {/* Central radial glow — GSAP animated */}
-      <div ref={glowRef} className="absolute pointer-events-none opacity-0" style={{
-        top:'50%', left:'50%',
-        transform:'translate(-50%,-50%)',
-        width:'80vw', height:'60vh', maxWidth:1000,
-        background:'radial-gradient(ellipse, rgba(180,25,25,0.09) 0%, transparent 65%)',
-        filter:'blur(50px)',
-      }} />
+            transform:
+              'translate(-50%, -50%)',
 
-      {/* Side glows */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div style={{
-          position:'absolute', top:'20%', left:'20%',
-          width:'25vw', height:'25vw', borderRadius:'50%',
-          background:'radial-gradient(circle, rgba(180,25,25,0.05) 0%, transparent 65%)',
-          filter:'blur(40px)',
-        }} />
-        <div style={{
-          position:'absolute', bottom:'20%', right:'20%',
-          width:'30vw', height:'30vw', borderRadius:'50%',
-          background:'radial-gradient(circle, rgba(200,50,30,0.04) 0%, transparent 65%)',
-          filter:'blur(40px)',
-        }} />
+            width: '60vw',
+            height: '40vh',
+
+            background:
+              'radial-gradient(circle, rgba(120,0,0,0.07) 0%, transparent 70%)',
+
+            filter: 'blur(90px)',
+          }}
+        />
+
+        {/* Secondary luxury glow */}
+        <div
+          className="absolute rounded-full"
+          style={{
+            top: '-18%',
+            right: '-10%',
+
+            width: '40vw',
+            height: '40vw',
+
+            background:
+              'radial-gradient(circle, rgba(180,20,20,0.04) 0%, transparent 70%)',
+
+            filter: 'blur(70px)',
+
+            animation:
+              'orbFloat 18s ease-in-out infinite alternate',
+          }}
+        />
+
+        {/* Floating particles */}
+        {[...Array(26)].map((_, i) => (
+          <div
+            key={i}
+            className="absolute rounded-full"
+            style={{
+              width:
+                i % 3 === 0 ? 4 : 2,
+
+              height:
+                i % 3 === 0 ? 4 : 2,
+
+              background:
+                i % 2 === 0
+                  ? 'rgba(130,0,0,0.30)'
+                  : 'rgba(180,20,20,0.22)',
+
+              left: `${(i * 4.2) % 100}%`,
+              top: `${(i * 7.1) % 100}%`,
+
+              boxShadow:
+                '0 0 12px rgba(120,0,0,0.12)',
+
+              animation: `particleFloat ${
+                6 + (i % 5)
+              }s ease-in-out infinite`,
+
+              animationDelay: `${i * 0.25}s`,
+            }}
+          />
+        ))}
+
+        {/* Editorial texture */}
+        <div
+          className="absolute inset-0 opacity-[0.022]"
+          style={{
+            backgroundImage:
+              'radial-gradient(circle, rgba(120,0,0,0.42) 1px, transparent 1px)',
+
+            backgroundSize:
+              '34px 34px',
+          }}
+        />
+
+        {/* Grain */}
+        <div
+          className="absolute inset-0 opacity-[0.015]"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
+
+            backgroundSize:
+              '180px 180px',
+          }}
+        />
+
+        {/* Vertical beam */}
+        <div
+          className="absolute left-1/2 top-0 -translate-x-1/2"
+          style={{
+            width: 1,
+            height: '100%',
+
+            background:
+              'linear-gradient(to bottom, transparent, rgba(120,0,0,0.08), transparent)',
+          }}
+        />
       </div>
 
-      <div className="container-main max-w-[800px] text-center relative z-[2]">
+      <div className="container-main max-w-[980px] text-center relative z-[10]">
 
-        {/* Label pill */}
-        <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full mb-10" style={{
-          border:'1px solid rgba(200,40,30,0.3)',
-          background:'rgba(200,40,30,0.07)',
-          backdropFilter:'blur(10px)',
-        }}>
-          <svg className="w-4 h-4" style={{ color:'rgba(210,60,45,0.9)' }} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-          </svg>
-          <span style={{ color:'rgba(210,60,45,0.9)', fontSize:'0.62rem', letterSpacing:'0.2em', fontWeight:700 }}>
-            LEADERSHIP PHILOSOPHY
+        {/* PREMIUM PILL */}
+        <div
+          className="group inline-flex items-center gap-3 px-6 py-2.5 rounded-full mb-14 transition-all duration-500 hover:scale-[1.03]"
+          style={{
+            border:
+              '1px solid rgba(120,0,0,0.14)',
+
+            background:
+              'rgba(255,255,255,0.65)',
+
+            backdropFilter:
+              'blur(14px)',
+
+            boxShadow:
+              '0 10px 40px rgba(120,0,0,0.05)',
+          }}
+        >
+          <span
+            style={{
+              width: 6,
+              height: 6,
+
+              borderRadius:
+                '50%',
+
+              background:
+                'linear-gradient(135deg, #4d0202 0%, #8f1111 100%)',
+
+              animation:
+                'pulseDot 2.8s ease-in-out infinite',
+            }}
+          />
+
+          <span
+            style={{
+              color:
+                '#1a0a0a',
+
+              fontSize:
+                '0.7rem',
+
+              letterSpacing:
+                '0.28em',
+
+              fontWeight: 800,
+
+              textTransform:
+                'uppercase',
+            }}
+          >
+            Leadership Philosophy
           </span>
         </div>
 
-        {/* Hero statement */}
-        <div className="relative mb-12">
-          <div className="absolute -top-8 -left-8 w-20 h-20 rounded-full blur-2xl"
-            style={{ background:'radial-gradient(circle, rgba(200,40,30,0.10), transparent)' }} />
-          <div className="absolute -top-8 -right-8 w-16 h-16 rounded-full blur-xl"
-            style={{ background:'radial-gradient(circle, rgba(200,50,30,0.07), transparent)' }} />
+        {/* HEADINGS */}
+        <div className="mb-16 relative">
+
+          {/* Ambient accent */}
+          <div
+            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-52 h-52 rounded-full"
+            style={{
+              background:
+                'radial-gradient(circle, rgba(120,0,0,0.05), transparent 70%)',
+
+              filter: 'blur(40px)',
+            }}
+          />
 
           <SplitText
-            as="div"
-            type="lines"
-            className="relative"
+            as="h2"
+            type="words"
+            stagger={0.03}
             style={{
-              fontFamily:'"Georgia","Times New Roman",serif',
-              fontSize:'clamp(2rem,5.5vw,4rem)',
-              fontWeight:700,
-              lineHeight:1.1,
-              background:'linear-gradient(135deg, #e03030 0%, #e06040 50%, rgba(255,255,255,0.88) 100%)',
-              WebkitBackgroundClip:'text',
-              WebkitTextFillColor:'transparent',
-              backgroundClip:'text',
+              fontFamily:
+                '"Georgia", serif',
+
+              fontSize:
+                'clamp(2.6rem, 6.5vw, 5rem)',
+
+              fontWeight: 700,
+
+              lineHeight: 1.05,
+
+              color: '#1a0a0a',
+
+              letterSpacing:
+                '-0.04em',
             }}
-            stagger={0.1}
-            duration={1}
-            y={50}
           >
-            We don't sell software.
+            We don&apos;t sell software.
+          </SplitText>
+
+          <SplitText
+            as="h2"
+            type="words"
+            stagger={0.03}
+            y={30}
+            duration={1.2}
+            style={{
+              fontFamily:
+                '"Georgia", serif',
+
+              fontSize:
+                'clamp(2.6rem, 6.5vw, 5rem)',
+
+              fontWeight: 700,
+
+              lineHeight: 1.05,
+
+              background:
+                'linear-gradient(90deg, #2a0000 0%, #7a0707 48%, #b51616 100%)',
+
+              WebkitBackgroundClip:
+                'text',
+
+              WebkitTextFillColor:
+                'transparent',
+
+              backgroundClip:
+                'text',
+
+              letterSpacing:
+                '-0.04em',
+
+              filter:
+                'drop-shadow(0 8px 24px rgba(120,0,0,0.08))',
+            }}
+          >
             We architect change.
           </SplitText>
         </div>
 
-        {/* Body */}
-        <div className="relative inline-block max-w-[560px]">
-          <div className="absolute -top-4 -left-4 w-12 h-12 rounded-full blur-xl"
-            style={{ background:'radial-gradient(circle, rgba(200,40,30,0.08), transparent)' }} />
-          <p ref={bodyRef} className="mx-auto opacity-0 leading-relaxed relative" style={{
-            fontFamily:'"Georgia",serif',
-            fontStyle:'italic',
-            color:'rgba(255,255,255,0.40)',
-            fontSize:'clamp(0.9rem,1.6vw,1.05rem)',
-            lineHeight:1.85,
-          }}>
-            True transformation doesn't come from tools. It comes from the strategic clarity to know what should change, the operational wisdom to know how, and the courage to lead the transition. That's what four decades in media leadership teaches you. That's what we bring to every engagement.
+        {/* DIVIDER */}
+        <div className="flex flex-col items-center mb-14">
+          <div className="flex items-center gap-4">
+            <div
+              className="w-14 h-px"
+              style={{
+                background:
+                  'linear-gradient(to right, transparent, rgba(120,0,0,0.42))',
+              }}
+            />
+
+            <div
+              className="w-1.5 h-1.5 rounded-full"
+              style={{
+                backgroundColor:
+                  'rgba(120,0,0,0.6)',
+              }}
+            />
+
+            <div
+              className="w-14 h-px"
+              style={{
+                background:
+                  'linear-gradient(to left, transparent, rgba(120,0,0,0.42))',
+              }}
+            />
+          </div>
+        </div>
+
+        {/* BODY */}
+        <div className="relative inline-block max-w-[720px]">
+          <p
+            ref={bodyRef}
+            className="opacity-0 italic leading-relaxed"
+            style={{
+              fontFamily:
+                '"Georgia", serif',
+
+              color:
+                'rgba(26,8,8,0.58)',
+
+              fontSize:
+                'clamp(1.08rem, 2vw, 1.4rem)',
+
+              lineHeight: 1.9,
+            }}
+          >
+            "True transformation
+            doesn&apos;t come from tools.
+            It comes from the{' '}
+            <span
+              style={{
+                color:
+                  '#7a0707',
+
+                fontStyle:
+                  'normal',
+
+                fontWeight:
+                  700,
+              }}
+            >
+              strategic clarity
+            </span>{' '}
+            to know what should
+            change, the operational
+            wisdom to know how, and
+            the courage to lead the
+            transition."
           </p>
         </div>
 
-        {/* Ornament */}
-        <div className="flex justify-center gap-8 mt-16">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-px" style={{ background:'linear-gradient(to right, transparent, rgba(200,40,30,0.5))' }} />
-            <svg className="w-4 h-4" style={{ color:'rgba(200,50,40,0.7)' }} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+        {/* FOOTER ORNAMENT */}
+        <div className="flex flex-col items-center mt-28">
+          <div
+            ref={iconRef}
+            className="p-4"
+          >
+            <svg
+              className="w-9 h-9"
+              style={{
+                color:
+                  'rgba(120,0,0,0.42)',
+              }}
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M12 21l-8.25-18.75L12 15.75l8.25-13.5L12 21z"
+              />
             </svg>
-            <div className="w-8 h-px" style={{ background:'linear-gradient(to left, transparent, rgba(200,40,30,0.5))' }} />
+          </div>
+
+          <div
+            ref={dividerRef}
+            className="origin-top"
+          >
+            <div
+              className="h-24 w-px mt-4"
+              style={{
+                background:
+                  'linear-gradient(to bottom, rgba(120,0,0,0.35), transparent)',
+              }}
+            />
           </div>
         </div>
       </div>
+
+      <style>{`
+        @keyframes particleFloat {
+          0%,100% {
+            transform: translateY(0px);
+          }
+
+          50% {
+            transform: translateY(-12px);
+          }
+        }
+
+        @keyframes orbFloat {
+          0% {
+            transform: translate(0px,0px);
+          }
+
+          100% {
+            transform: translate(-40px,30px);
+          }
+        }
+
+        @keyframes pulseDot {
+          0% {
+            opacity: 0.7;
+            transform: scale(1);
+          }
+
+          50% {
+            opacity: 1;
+            transform: scale(1.4);
+          }
+
+          100% {
+            opacity: 0.7;
+            transform: scale(1);
+          }
+        }
+      `}</style>
     </section>
   )
 }

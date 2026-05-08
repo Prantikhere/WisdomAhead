@@ -35,39 +35,58 @@ const icons = [Zap, Target, Shield, TrendingUp]
 export default function CoreCapabilities() {
   const sectionRef = useRef<HTMLElement>(null)
   const headingRef = useRef<HTMLDivElement>(null)
-  const cardsRef   = useRef<HTMLDivElement>(null)
-  const ctaRef     = useRef<HTMLDivElement>(null)
+  const cardsRef = useRef<HTMLDivElement>(null)
+  const ctaRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     if (!sectionRef.current) return
 
     const ctx = gsap.context(() => {
-      /* Heading fade up */
-      gsap.fromTo(headingRef.current,
+      gsap.fromTo(
+        headingRef.current,
         { y: 32, opacity: 0 },
         {
-          y: 0, opacity: 1, duration: 0.9, ease: 'power3.out',
-          scrollTrigger: { trigger: headingRef.current, start: 'top 85%', toggleActions: 'play none none none' },
+          y: 0,
+          opacity: 1,
+          duration: 0.9,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: headingRef.current,
+            start: 'top 85%',
+          },
         }
       )
 
-      /* Cards stagger up */
       if (cardsRef.current) {
-        gsap.fromTo(cardsRef.current.querySelectorAll('.cap-card'),
+        gsap.fromTo(
+          cardsRef.current.querySelectorAll('.cap-card'),
           { y: 48, opacity: 0 },
           {
-            y: 0, opacity: 1, duration: 0.85, stagger: 0.13, ease: 'power3.out',
-            scrollTrigger: { trigger: cardsRef.current, start: 'top 88%', toggleActions: 'play none none none' },
+            y: 0,
+            opacity: 1,
+            duration: 0.85,
+            stagger: 0.13,
+            ease: 'power3.out',
+            scrollTrigger: {
+              trigger: cardsRef.current,
+              start: 'top 88%',
+            },
           }
         )
       }
 
-      /* CTA fade */
-      gsap.fromTo(ctaRef.current,
+      gsap.fromTo(
+        ctaRef.current,
         { y: 20, opacity: 0 },
         {
-          y: 0, opacity: 1, duration: 0.7, ease: 'power2.out',
-          scrollTrigger: { trigger: ctaRef.current, start: 'top 92%', toggleActions: 'play none none none' },
+          y: 0,
+          opacity: 1,
+          duration: 0.7,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: ctaRef.current,
+            start: 'top 92%',
+          },
         }
       )
     }, sectionRef)
@@ -81,154 +100,256 @@ export default function CoreCapabilities() {
       id="capabilities"
       className="relative overflow-hidden"
       style={{
-        background: 'linear-gradient(160deg, #0a0808 0%, #140d0d 50%, #0a0808 100%)',
+        background:
+          'linear-gradient(145deg, #f3f0ea 0%, #efebe5 38%, #f5f2ed 72%, #f3f0ea 100%)',
         padding: 'clamp(64px, 9vw, 130px) 0',
       }}
     >
       {/* Atmosphere */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div style={{
-          position: 'absolute', inset: 0,
-          background: 'radial-gradient(ellipse 70% 50% at 50% 0%, rgba(160,25,25,0.12) 0%, transparent 65%)',
-        }} />
-        <div style={{
-          position: 'absolute', inset: 0,
-          background: 'radial-gradient(ellipse 50% 40% at 0% 60%, rgba(160,25,25,0.07) 0%, transparent 60%)',
-        }} />
-        {/* Grain */}
-        <div
-          className="absolute inset-0 opacity-[0.022]"
-          style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
-            backgroundSize: '180px 180px',
-          }}
-        />
-      </div>
+<div className="absolute inset-0 pointer-events-none overflow-hidden">
+
+  {/* Soft luxury glow */}
+  <div
+    className="absolute inset-0"
+    style={{
+      background:
+        'radial-gradient(circle at 50% 18%, rgba(120,0,0,0.035), transparent 58%)',
+    }}
+  />
+
+  {/* Floating particles */}
+  {[...Array(30)].map((_, i) => (
+    <div
+      key={i}
+      className="absolute rounded-full"
+      style={{
+        width: i % 3 === 0 ? 4 : 2,
+        height: i % 3 === 0 ? 4 : 2,
+
+        background:
+          i % 2 === 0
+            ? 'rgba(130,0,0,0.32)'
+            : 'rgba(180,20,20,0.24)',
+
+        left: `${(i * 3.8) % 100}%`,
+        top: `${(i * 7.2) % 100}%`,
+
+        boxShadow:
+          '0 0 12px rgba(120,0,0,0.14)',
+
+        animation: `particleFloat ${
+          6 + (i % 5)
+        }s ease-in-out infinite`,
+
+        animationDelay: `${i * 0.3}s`,
+      }}
+    />
+  ))}
+
+  {/* Editorial dot texture */}
+  <div
+    className="absolute inset-0 opacity-[0.02]"
+    style={{
+      backgroundImage:
+        'radial-gradient(circle, rgba(110,0,0,0.35) 1px, transparent 1px)',
+      backgroundSize: '32px 32px',
+    }}
+  />
+
+  {/* Grain texture */}
+  <div
+    className="absolute inset-0 opacity-[0.015]"
+    style={{
+      backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
+      backgroundSize: '180px 180px',
+    }}
+  />
+</div>
 
       <div className="relative z-10 max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
 
-        {/* ── HEADING BLOCK ── */}
-        <div ref={headingRef} className="text-center mb-14 lg:mb-20" style={{ opacity: 0 }}>
+        {/* Heading */}
+<div
+  ref={headingRef}
+  className="text-center mb-14 lg:mb-20"
+  style={{ opacity: 0 }}
+>
+  {/* Pill */}
+  <div className="mb-8">
+    <span
+      className="inline-flex items-center gap-2 px-5 py-2 rounded-full"
+      style={{
+        border: '1px solid rgba(120,0,0,0.15)',
+        background: 'rgba(255,255,255,0.6)',
+        backdropFilter: 'blur(10px)',
+      }}
+    >
+      <span
+        style={{
+          width: 6,
+          height: 6,
+          borderRadius: '50%',
+          background:
+            'linear-gradient(135deg, #5f0505 0%, #9b1111 100%)',
+          display: 'inline-block',
+        }}
+      />
 
-          {/* Label pill */}
-          <div
-            className="inline-flex items-center gap-2 px-4 py-1.5 mb-8 rounded-full"
-            style={{
-              border: '1px solid rgba(200,40,40,0.35)',
-              background: 'rgba(200,40,40,0.08)',
-            }}
-          >
-            <span style={{ color: 'rgba(220,70,50,0.9)', fontSize: '0.68rem', letterSpacing: '0.2em', fontWeight: 600 }}>
-              ✦ CORE CAPABILITIES
-            </span>
-          </div>
+      <span
+        style={{
+          color: 'rgba(100,0,0,0.82)',
+          fontSize: '0.68rem',
+          letterSpacing: '0.22em',
+          fontWeight: 700,
+          textTransform: 'uppercase',
+        }}
+      >
+        Core Capabilities
+      </span>
+    </span>
+  </div>
 
-          {/* Title */}
-          <h2
-            className="leading-tight mb-5"
-            style={{ fontFamily: '"Georgia", "Times New Roman", serif' }}
-          >
-            <span
-              className="block italic"
-              style={{
-                fontSize: 'clamp(2rem, 5vw, 3.4rem)',
-                background: 'linear-gradient(135deg, #e03030 0%, #e06040 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text',
-                fontWeight: 700,
-              }}
-            >
-              Four Pillars
-            </span>
-            <span
-              className="block"
-              style={{
-                fontSize: 'clamp(2rem, 5vw, 3.4rem)',
-                color: '#fff',
-                fontWeight: 700,
-              }}
-            >
-              of Transformation
-            </span>
-          </h2>
+  {/* Main heading */}
+  <h2
+    style={{
+      fontFamily: '"Georgia","Times New Roman",serif',
+      lineHeight: 0.95,
+      marginBottom: '1.8rem',
+    }}
+  >
+    <span
+      style={{
+        display: 'block',
+        fontSize: 'clamp(2.8rem, 7vw, 5.8rem)',
+        fontStyle: 'italic',
+        fontWeight: 700,
+        background:
+          'linear-gradient(90deg, #220000 0%, #6f0808 45%, #a30d0d 100%)',
+        WebkitBackgroundClip: 'text',
+        WebkitTextFillColor: 'transparent',
+        backgroundClip: 'text',
+      }}
+    >
+      Four Pillars
+    </span>
 
-          <p style={{ color: 'rgba(255,255,255,0.45)', fontSize: 'clamp(0.83rem, 1.5vw, 0.97rem)', maxWidth: 520, margin: '0 auto', lineHeight: 1.7 }}>
-            Our comprehensive approach combines strategic insight with technical excellence to deliver measurable results for media enterprises.
-          </p>
-        </div>
+    <span
+      style={{
+        display: 'block',
+        fontSize: 'clamp(2.8rem, 7vw, 5.8rem)',
+        color: '#140909',
+        fontWeight: 700,
+      }}
+    >
+      of Transformation
+    </span>
+  </h2>
 
-        {/* ── CARDS GRID ── */}
+  {/* Subtitle */}
+  <p
+    style={{
+      color: 'rgba(30,8,8,0.52)',
+      fontSize: 'clamp(0.83rem, 1.5vw, 0.97rem)',
+      maxWidth: 620,
+      margin: '0 auto',
+      lineHeight: 1.8,
+    }}
+  >
+    Our comprehensive approach combines strategic insight with
+    technical excellence to deliver measurable results for media
+    enterprises.
+  </p>
+</div>
+
+        {/* Cards */}
         <div
           ref={cardsRef}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-0"
-          style={{
-            border: '1px solid rgba(255,255,255,0.07)',
-            borderRadius: 4,
-            overflow: 'hidden',
-          }}
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5"
         >
           {capabilities.map((cap, i) => {
             const Icon = icons[i]
+
             return (
               <div
                 key={cap.index}
-                className="cap-card group relative flex flex-col"
+                className="cap-card group relative flex flex-col rounded-2xl overflow-hidden"
                 style={{
                   opacity: 0,
                   padding: 'clamp(24px, 3vw, 40px)',
-                  borderRight: i < capabilities.length - 1 ? '1px solid rgba(255,255,255,0.07)' : 'none',
-                  background: 'rgba(255,255,255,0.015)',
-                  cursor: 'default',
-                  transition: 'background 0.35s ease',
+                  background: 'rgba(255,255,255,0.72)',
+                  backdropFilter: 'blur(14px)',
+                  border: '1px solid rgba(120,0,0,0.1)',
+                  transition:
+                    'all 0.45s cubic-bezier(0.22, 1, 0.36, 1)',
                 }}
-                onMouseEnter={e => {
-                  (e.currentTarget as HTMLDivElement).style.background = 'rgba(180,30,30,0.06)'
+                onMouseEnter={(e) => {
+                  const el = e.currentTarget as HTMLDivElement
+                  el.style.background =
+                    'rgba(255,255,255,0.98)'
+                  el.style.transform =
+                    'translateY(-8px)'
+                  el.style.boxShadow =
+                    '0 22px 55px rgba(80,0,0,0.12)'
                 }}
-                onMouseLeave={e => {
-                  (e.currentTarget as HTMLDivElement).style.background = 'rgba(255,255,255,0.015)'
+                onMouseLeave={(e) => {
+                  const el = e.currentTarget as HTMLDivElement
+                  el.style.background =
+                    'rgba(255,255,255,0.72)'
+                  el.style.transform = 'translateY(0px)'
+                  el.style.boxShadow = 'none'
                 }}
               >
-                {/* Top: number + icon */}
+                {/* Hover glow line */}
+                <div
+                  className="absolute top-0 left-0 w-full h-px opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                  style={{
+                    background:
+                      'linear-gradient(90deg, transparent, rgba(120,0,0,0.9), transparent)',
+                  }}
+                />
+
+                {/* Number + icon */}
                 <div className="flex items-center justify-between mb-6">
                   <span
                     style={{
                       fontFamily: '"Georgia", serif',
                       fontSize: 'clamp(1.4rem, 2.5vw, 1.8rem)',
                       fontWeight: 700,
-                      background: 'linear-gradient(135deg, #e03030, #e06040)',
+                      background:
+                        'linear-gradient(135deg, #2a0000, #8a1010)',
                       WebkitBackgroundClip: 'text',
                       WebkitTextFillColor: 'transparent',
                       backgroundClip: 'text',
-                      lineHeight: 1,
                     }}
                   >
                     {cap.index}
                   </span>
+
                   <Icon
-                    className="transition-all duration-300 group-hover:scale-110 group-hover:text-[rgba(220,70,50,1)]"
-                    style={{ width: 18, height: 18, color: 'rgba(200,50,40,0.7)', flexShrink: 0 }}
+                    className="floatingIcon transition-all duration-500 group-hover:scale-110 group-hover:-translate-y-1"
+                    style={{
+                      width: 18,
+                      height: 18,
+                      color: 'rgba(90,0,0,0.7)',
+                    }}
                     strokeWidth={1.8}
                   />
                 </div>
 
-                {/* Title */}
                 <h3
-                  className="mb-4 leading-snug font-bold"
+                  className="mb-4 leading-snug font-bold transition-colors duration-300 group-hover:text-[rgba(120,0,0,1)]"
                   style={{
-                    color: '#fff',
+                    color: '#140909',
                     fontSize: 'clamp(0.9rem, 1.5vw, 1.05rem)',
                     fontFamily: '"Georgia", serif',
-                    transition: 'color 0.3s ease',
                   }}
                 >
                   {cap.title}
                 </h3>
 
-                {/* Body */}
                 <p
                   style={{
-                    color: 'rgba(255,255,255,0.42)',
+                    color: 'rgba(30,8,8,0.45)',
                     fontSize: '0.8rem',
                     lineHeight: 1.75,
                     flexGrow: 1,
@@ -237,24 +358,39 @@ export default function CoreCapabilities() {
                   {cap.body}
                 </p>
 
-                {/* Bottom divider + details link */}
+                {/* Bottom */}
                 <div className="mt-8">
                   <div
                     className="mb-4"
                     style={{
                       height: 1,
-                      background: 'linear-gradient(to right, rgba(200,40,40,0.5), rgba(200,40,40,0.08))',
-                      transition: 'opacity 0.3s ease',
+                      background:
+                        'linear-gradient(90deg, transparent, rgba(120,0,0,0.55), rgba(120,0,0,0.08), transparent)',
+                      backgroundSize: '200% 100%',
+                      animation: 'dividerFlow 7s linear infinite',
                     }}
                   />
+
                   <div
                     className="inline-flex items-center gap-2 transition-all duration-300 group-hover:gap-3"
-                    style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.68rem', letterSpacing: '0.14em', fontWeight: 600, textTransform: 'uppercase' }}
+                    style={{
+                      color: 'rgba(30,8,8,0.45)',
+                      fontSize: '0.68rem',
+                      letterSpacing: '0.14em',
+                      fontWeight: 600,
+                      textTransform: 'uppercase',
+                    }}
                   >
-                    <span className="group-hover:text-[rgba(220,70,50,0.9)] transition-colors duration-300">DETAILS</span>
+                    <span className="group-hover:text-[rgba(120,0,0,1)] transition-colors duration-300">
+                      DETAILS
+                    </span>
+
                     <ArrowRight
-                      className="group-hover:text-[rgba(220,70,50,0.9)] transition-all duration-300 group-hover:translate-x-1"
-                      style={{ width: 12, height: 12 }}
+                      className="transition-all duration-300 group-hover:translate-x-1"
+                      style={{
+                        width: 12,
+                        height: 12,
+                      }}
                       strokeWidth={2.5}
                     />
                   </div>
@@ -264,46 +400,137 @@ export default function CoreCapabilities() {
           })}
         </div>
 
-        {/* ── BOTTOM CTA ── */}
-        <div ref={ctaRef} className="text-center mt-16 lg:mt-20" style={{ opacity: 0 }}>
+        {/* CTA */}
+        <div
+          ref={ctaRef}
+          className="text-center mt-16 lg:mt-20"
+          style={{ opacity: 0 }}
+        >
           <a
             href="#contact"
             onClick={(e) => {
               e.preventDefault()
-              document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })
+              document
+                .getElementById('contact')
+                ?.scrollIntoView({ behavior: 'smooth' })
             }}
             className="group inline-flex items-center gap-3 font-semibold relative overflow-hidden"
             style={{
-              background: 'linear-gradient(135deg, #cc2828, #d94a2a)',
+              background:
+                'linear-gradient(90deg, #2a0000 0%, #6f0808 45%, #320000 100%)',
               color: '#fff',
               padding: '15px 36px',
-              borderRadius: 4,
+              borderRadius: 999,
               fontSize: '0.75rem',
               letterSpacing: '0.16em',
               textTransform: 'uppercase',
               textDecoration: 'none',
-              transition: 'transform 0.25s ease, box-shadow 0.25s ease',
-            }}
-            onMouseEnter={e => {
-              (e.currentTarget as HTMLAnchorElement).style.transform = 'translateY(-2px)'
-              ;(e.currentTarget as HTMLAnchorElement).style.boxShadow = '0 10px 36px rgba(200,40,40,0.4)'
-            }}
-            onMouseLeave={e => {
-              (e.currentTarget as HTMLAnchorElement).style.transform = 'translateY(0)'
-              ;(e.currentTarget as HTMLAnchorElement).style.boxShadow = 'none'
+              animation: 'ctaPulse 4s ease-in-out infinite',
             }}
           >
-            {/* Shine sweep */}
             <div
               className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out"
-              style={{ background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent)', pointerEvents: 'none' }}
+              style={{
+                background:
+                  'linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent)',
+              }}
             />
-            <span className="relative z-10">Explore Our Solutions</span>
-            <Zap className="relative z-10 w-4 h-4 transition-transform duration-300 group-hover:scale-110" strokeWidth={2.5} />
+
+            <span className="relative z-10">
+              Explore Our Solutions
+            </span>
+
+            <Zap
+              className="relative z-10 w-4 h-4 transition-transform duration-300 group-hover:scale-110"
+              strokeWidth={2.5}
+            />
           </a>
         </div>
-
       </div>
+
+      <style>{`
+        @keyframes ambientFloat {
+          0% {
+            transform: translate(0px, 0px);
+          }
+          100% {
+            transform: translate(-40px, 30px);
+          }
+        }
+
+        @keyframes ambientFloatReverse {
+          0% {
+            transform: translate(0px, 0px);
+          }
+          100% {
+            transform: translate(40px, -25px);
+          }
+        }
+
+        @keyframes dividerFlow {
+          0% {
+            background-position: 200% 0;
+          }
+          100% {
+            background-position: -200% 0;
+          }
+        }
+
+        @keyframes ctaPulse {
+          0% {
+            box-shadow: 0 10px 30px rgba(60,0,0,0.16);
+          }
+          50% {
+            box-shadow: 0 18px 50px rgba(90,0,0,0.26);
+          }
+          100% {
+            box-shadow: 0 10px 30px rgba(60,0,0,0.16);
+          }
+        }
+
+        .floatingIcon {
+          animation: iconFloat 4s ease-in-out infinite;
+        }
+
+        @keyframes iconFloat {
+          0% {
+            transform: translateY(0px);
+          }
+          50% {
+            transform: translateY(-3px);
+          }
+          100% {
+            transform: translateY(0px);
+          }
+        }
+
+        @keyframes pulseDot {
+          0% {
+            opacity: 0.7;
+            transform: scale(1);
+          }
+
+          50% {
+            opacity: 1;
+            transform: scale(1.4);
+          }
+
+          100% {
+            opacity: 0.7;
+            transform: scale(1);
+          }
+        }
+
+        @keyframes particleFloat {
+          0%,100% {
+            transform: translateY(0px);
+          }
+
+          50% {
+            transform: translateY(-12px);
+          }
+        }
+      `}</style>
     </section>
   )
 }
