@@ -1,6 +1,6 @@
 import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
-import GradientBleed from '@/components/GradientBleed'
+// import GradientBleed from '@/components/GradientBleed'
 import Hero from '@/sections/home/Hero'
 import WhatWeDo from '@/sections/home/WhatWeDo'
 import CoreCapabilities from '@/sections/home/CoreCapabilities'
@@ -14,7 +14,7 @@ export default function Home() {
   return (
     <>
       <Navigation />
-      <GradientBleed />
+      {/* <GradientBleed /> */}
       <main className="relative z-[10]">
         <Hero />
         <WhatWeDo />

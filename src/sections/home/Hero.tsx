@@ -1,183 +1,257 @@
+'use client'
+
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import MeshGradientRain from '@/components/MeshGradientRain'
 import MagneticButton from '@/components/MagneticButton'
 import { Sparkles, Zap, Brain } from 'lucide-react'
 
-
-
 export default function Hero() {
-
-  const labelRef = useRef<HTMLDivElement>(null)
-
-  const line1Ref = useRef<HTMLDivElement>(null)
-
-  const line2Ref = useRef<HTMLDivElement>(null)
-
-  const subRef = useRef<HTMLParagraphElement>(null)
-
-  const ctaRef = useRef<HTMLDivElement>(null)
-
-  const scrollRef = useRef<HTMLDivElement>(null)
-
+  const labelRef   = useRef<HTMLDivElement>(null)
+  const line1Ref   = useRef<HTMLDivElement>(null)
+  const line2Ref   = useRef<HTMLDivElement>(null)
+  const subRef     = useRef<HTMLParagraphElement>(null)
+  const ctaRef     = useRef<HTMLDivElement>(null)
+  const scrollRef  = useRef<HTMLDivElement>(null)
   const sectionRef = useRef<HTMLElement>(null)
+  const decorRef   = useRef<HTMLDivElement>(null)
+  const frameRef   = useRef<HTMLDivElement>(null)
 
-  const decorRef = useRef<HTMLDivElement>(null)
-
-
-
-  const isMobile = typeof window !== 'undefined' && (window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 768)
-
-
+  const isMobile = typeof window !== 'undefined' &&
+    (window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 768)
 
   useEffect(() => {
+    const tl = gsap.timeline({ delay: 0.4 })
 
-    const tl = gsap.timeline({ delay: 0.5 })
-
-
-
-    tl.fromTo(labelRef.current, { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: 'power3.out' })
-
-    tl.fromTo(line1Ref.current, { y: 60, opacity: 0 }, { y: 0, opacity: 1, duration: 1, ease: 'power3.out' }, '-=0.3')
-
-    tl.fromTo(line2Ref.current, { y: 60, opacity: 0 }, { y: 0, opacity: 1, duration: 1, ease: 'power3.out' }, '-=0.7')
-
-    tl.fromTo(subRef.current, { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7, ease: 'power3.out' }, '-=0.6')
-
-    tl.fromTo(ctaRef.current, { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: 'power3.out' }, '-=0.4')
-
-    tl.fromTo(decorRef.current, { scale: 0.8, opacity: 0 }, { scale: 1, opacity: 1, duration: 1.2, ease: 'power3.out' }, '-=0.8')
-
-    tl.fromTo(scrollRef.current, { opacity: 0 }, { opacity: 1, duration: 0.4 }, '-=0.2')
-
-
+    tl.fromTo(frameRef.current,  { opacity: 0 }, { opacity: 1, duration: 1.2, ease: 'power2.out' })
+    tl.fromTo(labelRef.current,  { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: 'power3.out' }, '-=0.8')
+    tl.fromTo(line1Ref.current,  { y: 60, opacity: 0 }, { y: 0, opacity: 1, duration: 1,   ease: 'power3.out' }, '-=0.3')
+    tl.fromTo(line2Ref.current,  { y: 60, opacity: 0 }, { y: 0, opacity: 1, duration: 1,   ease: 'power3.out' }, '-=0.7')
+    tl.fromTo(subRef.current,    { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7, ease: 'power3.out' }, '-=0.6')
+    tl.fromTo(ctaRef.current,    { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: 'power3.out' }, '-=0.4')
+    tl.fromTo(decorRef.current,  { scale: 0.85, opacity: 0 }, { scale: 1, opacity: 1, duration: 1.4, ease: 'power3.out' }, '-=0.8')
+    tl.fromTo(scrollRef.current, { opacity: 0 }, { opacity: 1, duration: 0.5 }, '-=0.2')
 
     return () => { tl.kill() }
-
   }, [])
 
-
-
   useEffect(() => {
-
     if (isMobile) return
 
-
-
     const onScroll = () => {
-
       if (!scrollRef.current || !sectionRef.current) return
-
       const scrollY = window.scrollY
-
       scrollRef.current.style.opacity = String(Math.max(0, 1 - scrollY / 150))
-
       const content = sectionRef.current.querySelector('.hero-content') as HTMLElement
-
-      if (content) {
-
-        content.style.transform = `translateY(${scrollY * 0.15}px)`
-
-      }
-
+      if (content) content.style.transform = `translateY(${scrollY * 0.15}px)`
     }
 
     window.addEventListener('scroll', onScroll, { passive: true })
-
     return () => window.removeEventListener('scroll', onScroll)
-
   }, [isMobile])
 
-
-
   return (
-    <section ref={sectionRef} className="relative min-h-[100dvh] md:min-h-screen flex items-center overflow-hidden">
-      <MeshGradientRain opacity={0.45} mouseReactive={true} />
-      
-      {/* Enhanced Background Elements */}
+    <section
+      ref={sectionRef}
+      className="relative min-h-[100dvh] md:min-h-screen flex items-center overflow-hidden"
+      style={{ background: 'linear-gradient(160deg, #080606 0%, #110a0a 55%, #080606 100%)' }}
+    >
+      {/* MeshGradientRain kept — rendered on top of dark bg */}
+      <MeshGradientRain opacity={0.25} mouseReactive={true} />
+
+      {/* ── ATMOSPHERE LAYERS ── */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        {/* Floating gradient orbs */}
-        <div className="absolute top-10 sm:top-20 left-5 sm:left-10 w-32 sm:w-48 md:w-64 h-32 sm:h-48 md:h-64 bg-gradient-to-br from-[var(--accent-red)]/10 to-[var(--gradient-coral)]/5 rounded-full blur-2xl sm:blur-3xl float-animation" style={{ animationDelay: '0s' }} />
-        <div className="absolute bottom-10 sm:bottom-20 right-5 sm:right-10 w-48 sm:w-72 md:w-96 h-48 sm:h-72 md:h-96 bg-gradient-to-tl from-[var(--gradient-coral)]/8 to-[var(--accent-red)]/5 rounded-full blur-2xl sm:blur-3xl float-animation" style={{ animationDelay: '2s' }} />
-        <div className="absolute top-1/2 left-1/4 sm:left-1/3 w-24 sm:w-48 md:w-80 h-24 sm:h-48 md:h-80 bg-gradient-to-r from-[var(--gradient-gold)]/5 to-transparent rounded-full blur-xl sm:blur-2xl float-animation" style={{ animationDelay: '4s' }} />
-        
-        {/* Enhanced Falling Red Dots Animation */}
-        <div className="absolute inset-0">
-          {[...Array(15)].map((_, i) => (
-            <div
-              key={i}
-              className="absolute w-0.5 sm:w-1 h-0.5 sm:h-1 bg-[var(--accent-red)] rounded-full"
-              style={{
-                left: `${Math.random() * 100}%`,
-                top: '-10px',
-                animation: `fall ${3 + Math.random() * 4}s linear infinite`,
-                animationDelay: `${Math.random() * 5}s`,
-                opacity: 0.3 + Math.random() * 0.4
-              }}
-            />
-          ))}
-        </div>
+        {/* Large left glow */}
+        <div style={{
+          position: 'absolute',
+          top: '10%', left: '-10%',
+          width: '55vw', height: '55vw',
+          borderRadius: '50%',
+          background: 'radial-gradient(circle, rgba(180,25,25,0.13) 0%, transparent 65%)',
+          filter: 'blur(40px)',
+        }} />
+        {/* Bottom-right glow */}
+        <div style={{
+          position: 'absolute',
+          bottom: '0%', right: '-5%',
+          width: '45vw', height: '45vw',
+          borderRadius: '50%',
+          background: 'radial-gradient(circle, rgba(200,50,30,0.08) 0%, transparent 65%)',
+          filter: 'blur(50px)',
+        }} />
+        {/* Grain */}
+        <div
+          className="absolute inset-0 opacity-[0.025]"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
+            backgroundSize: '160px 160px',
+          }}
+        />
+        {/* Dot grid */}
+        <div
+          className="absolute inset-0 opacity-[0.03]"
+          style={{
+            backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.7) 1px, transparent 1px)',
+            backgroundSize: '36px 36px',
+          }}
+        />
+
+        {/* Falling red particles */}
+        {[...Array(14)].map((_, i) => (
+          <div
+            key={i}
+            className="absolute rounded-full"
+            style={{
+              left: `${(i * 7.3) % 100}%`,
+              top: '-8px',
+              width: i % 3 === 0 ? 2 : 1,
+              height: i % 3 === 0 ? 2 : 1,
+              background: 'rgba(200,45,35,0.5)',
+              animation: `fall ${3.5 + (i * 0.37) % 3.5}s linear infinite`,
+              animationDelay: `${(i * 0.41) % 5}s`,
+            }}
+          />
+        ))}
         <style>{`
-          @keyframes fall {
-            to {
-              transform: translateY(calc(100vh + 20px));
-            }
+          @keyframes fall { to { transform: translateY(calc(100vh + 20px)); } }
+          @keyframes gradientShift { 0%,100%{background-position:0% 50%} 50%{background-position:100% 50%} }
+          @keyframes scrollLine {
+            0%   { transform: scaleY(0); transform-origin: top; }
+            50%  { transform: scaleY(1); transform-origin: top; }
+            50.1%{ transform-origin: bottom; }
+            100% { transform: scaleY(0); transform-origin: bottom; }
+          }
+          @keyframes nodeFloat {
+            0%, 100% { transform: translateY(0px); }
+            50%       { transform: translateY(-6px); }
+          }
+          @keyframes shimmerLine {
+            0%   { opacity: 0.15; }
+            50%  { opacity: 0.45; }
+            100% { opacity: 0.15; }
           }
         `}</style>
       </div>
 
+      {/* ── THIN DECORATIVE FRAME ── */}
+      <div
+        ref={frameRef}
+        className="absolute pointer-events-none opacity-0"
+        style={{
+          top: 20, left: 20, right: 20, bottom: 20,
+          border: '1px solid rgba(255,255,255,0.04)',
+          borderRadius: 2,
+        }}
+      />
+      {/* Corner accents */}
+      {[
+        { top: 20, left: 20 },
+        { top: 20, right: 20 },
+        { bottom: 20, left: 20 },
+        { bottom: 20, right: 20 },
+      ].map((pos, i) => (
+        <div
+          key={i}
+          className="absolute pointer-events-none opacity-0"
+          ref={i === 0 ? frameRef : undefined}
+          style={{
+            ...pos,
+            width: 20, height: 20,
+            borderTop:    i < 2 ? '1px solid rgba(200,40,30,0.4)' : undefined,
+            borderBottom: i >= 2 ? '1px solid rgba(200,40,30,0.4)' : undefined,
+            borderLeft:   i % 2 === 0 ? '1px solid rgba(200,40,30,0.4)' : undefined,
+            borderRight:  i % 2 === 1 ? '1px solid rgba(200,40,30,0.4)' : undefined,
+          }}
+        />
+      ))}
 
-
-      <div className="hero-content container-main relative z-[2] w-full pt-16 sm:pt-20 md:pt-24 pb-16 sm:pb-20 will-change-transform grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-center px-3 sm:px-4 md:px-6">
-        {/* Left Content */}
+      {/* ── HERO CONTENT ── */}
+      <div
+        className="hero-content relative z-[2] w-full will-change-transform grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-center"
+        style={{ padding: 'clamp(80px, 10vw, 120px) clamp(24px, 5vw, 80px)' }}
+      >
+        {/* LEFT */}
         <div className="lg:col-span-7">
-          <div ref={labelRef} className="mb-4 sm:mb-6 lg:mb-8 opacity-0">
-            <div className="inline-flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full border glass-effect" style={{
-              borderColor: 'rgba(214,52,71,0.2)',
-              background: 'rgba(214,52,71,0.05)',
-              backdropFilter: 'blur(10px)'
-            }}>
-              <Sparkles className="w-3 h-3 sm:w-4 sm:h-4 text-[var(--accent-red)]" />
-              <span className="text-label font-medium text-xs sm:text-sm" style={{ color: 'var(--accent-red)', letterSpacing: '0.15em' }}>
+
+          {/* Label pill */}
+          <div ref={labelRef} className="mb-6 lg:mb-10 opacity-0">
+            <div
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full"
+              style={{
+                border: '1px solid rgba(200,40,30,0.3)',
+                background: 'rgba(200,40,30,0.07)',
+                backdropFilter: 'blur(10px)',
+              }}
+            >
+              <Sparkles style={{ width: 13, height: 13, color: 'rgba(210,60,45,0.9)' }} />
+              <span style={{ color: 'rgba(210,60,45,0.9)', fontSize: '0.65rem', letterSpacing: '0.2em', fontWeight: 600 }}>
                 SOVEREIGN AI ADVISORY
               </span>
             </div>
           </div>
 
-
-
-          <div className="max-w-full sm:max-w-[800px] md:max-w-[1000px] lg:max-w-[1200px]">
-            <div className="flex flex-wrap items-baseline gap-1 sm:gap-2 lg:gap-3">
-              <div ref={line1Ref} className="text-display-xl text-black opacity-0 relative" style={{ textShadow: '0 0 80px rgba(255,255,255,0.8)' }}>
-                <span className="gradient-text text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl">Operational Excellence</span>
-                <div className="absolute inset-0 blur-xl opacity-30">
-                  <span className="gradient-text text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl">Operational Excellence</span>
-                </div>
-              </div>
-              <div ref={line2Ref} className="text-display-xl opacity-0 relative inline-flex items-baseline gap-0.5 sm:gap-1 lg:gap-2 pb-2" style={{ textShadow: '0 0 80px rgba(255,255,255,0.8)', lineHeight: '1.1' }}>
-                <em className="not-italic text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl" style={{ color: 'var(--text-tertiary)', fontStyle: 'italic' }}>Through</em>
-                <span className="gradient-text font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl">Sovereign AI</span>
-                <div className="absolute inset-0 blur-xl opacity-30">
-                  <em className="not-italic text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl" style={{ color: 'var(--text-tertiary)', fontStyle: 'italic' }}>Through</em>
-                  <span className="gradient-text font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl">Sovereign AI</span>
-                </div>
-              </div>
+          {/* Heading */}
+          <div className="mb-8 lg:mb-14" style={{ maxWidth: 720 }}>
+            <div ref={line1Ref} className="opacity-0">
+              <span
+                style={{
+                  display: 'block',
+                  fontFamily: '"Georgia", "Times New Roman", serif',
+                  fontSize: 'clamp(2.4rem, 6.5vw, 5.2rem)',
+                  fontWeight: 700,
+                  lineHeight: 1.05,
+                  background: 'linear-gradient(135deg, #e03030 0%, #e06040 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text',
+                }}
+              >
+                Operational Excellence
+              </span>
+            </div>
+            <div ref={line2Ref} className="opacity-0 flex flex-wrap items-baseline gap-x-3">
+              <em
+                style={{
+                  fontFamily: '"Georgia", serif',
+                  fontStyle: 'italic',
+                  fontSize: 'clamp(2.4rem, 6.5vw, 5.2rem)',
+                  fontWeight: 400,
+                  color: 'rgba(255,255,255,0.35)',
+                  lineHeight: 1.05,
+                }}
+              >
+                Through
+              </em>
+              <span
+                style={{
+                  fontFamily: '"Georgia", serif',
+                  fontSize: 'clamp(2.4rem, 6.5vw, 5.2rem)',
+                  fontWeight: 700,
+                  lineHeight: 1.05,
+                  color: '#fff',
+                }}
+              >
+                Sovereign AI
+              </span>
             </div>
           </div>
 
-
-
+          {/* Subtext */}
           <p
             ref={subRef}
-            className="text-body-l mt-8 sm:mt-10 lg:mt-16 max-w-full sm:max-w-[500px] md:max-w-[540px] opacity-0 text-sm sm:text-base lg:text-lg leading-relaxed"
-            style={{ color: 'var(--text-secondary)' }}
+            className="opacity-0 mb-10 lg:mb-14"
+            style={{
+              color: 'rgba(255,255,255,0.45)',
+              fontSize: 'clamp(0.85rem, 1.6vw, 1.05rem)',
+              lineHeight: 1.8,
+              maxWidth: 480,
+            }}
           >
-            We architect secure, private AI systems that transform internal operations—making media organizations faster, leaner, and more intelligent.
+            We architect secure, private AI systems that transform internal operations — making media organizations faster, leaner, and more intelligent.
           </p>
 
-
-
-          <div ref={ctaRef} className="mt-8 sm:mt-12 lg:mt-16 opacity-0">
+          {/* CTA */}
+          <div ref={ctaRef} className="opacity-0">
             <MagneticButton strength={0.5}>
               <a
                 href="#contact"
@@ -185,17 +259,39 @@ export default function Hero() {
                   e.preventDefault()
                   document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })
                 }}
-                className="group inline-flex items-center gap-2 sm:gap-3 px-6 sm:px-8 py-3 sm:py-4 text-white text-[14px] sm:text-[16px] font-medium transition-all duration-300 hover:-translate-y-0.5 hover:shadow-2xl relative overflow-hidden rounded-lg"
-                style={{ 
-                  background: 'linear-gradient(135deg, var(--accent-red), var(--gradient-coral))',
-                  backgroundSize: '200% 200%',
-                  animation: 'gradientShift 3s ease-in-out infinite'
+                className="group inline-flex items-center gap-3 font-semibold relative overflow-hidden"
+                style={{
+                  background: 'linear-gradient(135deg, #cc2828, #d94a2a)',
+                  color: '#fff',
+                  padding: '14px 32px',
+                  borderRadius: 3,
+                  fontSize: '0.75rem',
+                  letterSpacing: '0.16em',
+                  textTransform: 'uppercase',
+                  textDecoration: 'none',
+                  transition: 'transform 0.25s ease, box-shadow 0.25s ease',
+                }}
+                onMouseEnter={e => {
+                  (e.currentTarget as HTMLAnchorElement).style.transform = 'translateY(-2px)'
+                  ;(e.currentTarget as HTMLAnchorElement).style.boxShadow = '0 10px 36px rgba(200,40,40,0.4)'
+                }}
+                onMouseLeave={e => {
+                  (e.currentTarget as HTMLAnchorElement).style.transform = 'translateY(0)'
+                  ;(e.currentTarget as HTMLAnchorElement).style.boxShadow = 'none'
                 }}
               >
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out" />
-                <Zap className="w-4 h-4 sm:w-5 sm:h-5 relative z-10" />
+                {/* Shine sweep */}
+                <div
+                  className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out"
+                  style={{ background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent)', pointerEvents: 'none' }}
+                />
+                <Zap className="relative z-10 transition-transform duration-300 group-hover:scale-110" style={{ width: 15, height: 15 }} strokeWidth={2.5} />
                 <span className="relative z-10">Request a Consultation</span>
-                <svg className="w-4 h-4 sm:w-5 sm:h-5 relative z-10 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <svg
+                  className="relative z-10 transition-transform duration-300 group-hover:translate-x-1"
+                  style={{ width: 14, height: 14 }}
+                  fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"
+                >
                   <line x1="5" y1="12" x2="19" y2="12" />
                   <polyline points="12 5 19 12 12 19" />
                 </svg>
@@ -205,109 +301,186 @@ export default function Hero() {
 
         </div>
 
+        {/* ── RIGHT: Decorative visualization ── */}
+        <div ref={decorRef} className="lg:col-span-5 flex items-center justify-center opacity-0 relative">
+          <div className="relative w-full" style={{ height: window.innerWidth < 768 ? 260 : 520 }}>
 
+            {/* Outer ring */}
+            <div
+              className="absolute"
+              style={{
+                top: '50%', left: '50%',
+                transform: 'translate(-50%, -50%)',
+                width: window.innerWidth < 768 ? 180 : 380,
+height: window.innerWidth < 768 ? 180 : 380,
+                border: '1px solid rgba(200,40,30,0.12)',
+                borderRadius: '50%',
+                animation: 'nodeFloat 7s ease-in-out infinite',
+              }}
+            />
+            {/* Middle ring */}
+            <div
+              className="absolute"
+              style={{
+                top: '50%', left: '50%',
+                transform: 'translate(-50%, -50%)',
+                width: 260, height: 260,
+                border: '1px solid rgba(200,40,30,0.18)',
+                borderRadius: '50%',
+                animation: 'nodeFloat 5s ease-in-out infinite',
+                animationDelay: '1s',
+              }}
+            />
+            {/* Inner fill */}
+            <div
+              className="absolute"
+              style={{
+                top: '50%', left: '50%',
+                transform: 'translate(-50%, -50%)',
+                width: 140, height: 140,
+                background: 'radial-gradient(circle, rgba(200,40,30,0.18) 0%, transparent 70%)',
+                borderRadius: '50%',
+                filter: 'blur(12px)',
+                animation: 'nodeFloat 4s ease-in-out infinite',
+                animationDelay: '0.5s',
+              }}
+            />
 
-        {/* Right Side Decorative Elements */}
-        <div ref={decorRef} className="lg:col-span-5 hidden lg:block relative">
-          <div className="relative w-full h-[400px] sm:h-[500px] lg:h-[600px] flex items-center justify-center">
-            {/* Enhanced Floating Geometric Shapes */}
-            <div className="absolute top-5 sm:top-10 right-5 sm:right-10 w-16 sm:w-24 lg:w-32 h-16 sm:h-24 lg:h-32 border-2 border-[var(--accent-red)]/20 rounded-full float-animation" style={{ animationDelay: '0s' }} />
-            <div className="absolute top-10 sm:top-20 right-10 sm:right-20 w-12 sm:w-16 lg:w-24 h-12 sm:h-16 lg:h-24 border border-[var(--gradient-coral)]/30 rotate-45 float-animation" style={{ animationDelay: '1s' }} />
-            <div className="absolute bottom-10 sm:bottom-20 right-2 sm:right-5 w-24 sm:w-32 lg:w-40 h-24 sm:h-32 lg:h-40 bg-gradient-to-br from-[var(--accent-red)]/10 to-[var(--gradient-coral)]/10 rounded-2xl sm:rounded-3xl float-animation" style={{ animationDelay: '2s' }} />
-            
-            {/* Enhanced Neural Network Visualization */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80">
-              <svg viewBox="0 0 320 320" className="w-full h-full opacity-70">
+            {/* Rotating diamond */}
+            <div
+              className="absolute"
+              style={{
+                top: '50%', left: '50%',
+                transform: 'translate(-50%, -50%) rotate(45deg)',
+                width: 180, height: 180,
+                border: '1px solid rgba(220,60,40,0.2)',
+                animation: 'nodeFloat 6s ease-in-out infinite',
+                animationDelay: '2s',
+              }}
+            />
+
+            {/* Neural network SVG */}
+            <div
+              className="absolute"
+              style={{
+                top: '50%', left: '50%',
+                transform: 'translate(-50%, -50%)',
+                width: 320, height: 320,
+              }}
+            >
+              <svg viewBox="0 0 320 320" className="w-full h-full">
                 <defs>
-                  <linearGradient id="nodeGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="var(--accent-red)" stopOpacity="0.8" />
-                    <stop offset="100%" stopColor="var(--gradient-coral)" stopOpacity="0.4" />
+                  <linearGradient id="ng" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="rgba(220,50,35,0.9)" />
+                    <stop offset="100%" stopColor="rgba(220,85,55,0.5)" />
                   </linearGradient>
                   <filter id="glow">
-                    <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
-                    <feMerge> 
+                    <feGaussianBlur stdDeviation="2.5" result="coloredBlur"/>
+                    <feMerge>
                       <feMergeNode in="coloredBlur"/>
                       <feMergeNode in="SourceGraphic"/>
                     </feMerge>
                   </filter>
                 </defs>
-                
-                {/* Enhanced Neural Network Nodes */}
-                <circle cx="80" cy="80" r="4" fill="url(#nodeGradient)" className="pulse-glow" filter="url(#glow)" />
-                <circle cx="240" cy="80" r="4" fill="url(#nodeGradient)" className="pulse-glow" style={{ animationDelay: '0.5s' }} filter="url(#glow)" />
-                <circle cx="160" cy="160" r="6" fill="var(--accent-red)" className="pulse-glow" style={{ animationDelay: '1s' }} filter="url(#glow)" />
-                <circle cx="80" cy="240" r="4" fill="url(#nodeGradient)" className="pulse-glow" style={{ animationDelay: '1.5s' }} filter="url(#glow)" />
-                <circle cx="240" cy="240" r="4" fill="url(#nodeGradient)" className="pulse-glow" style={{ animationDelay: '2s' }} filter="url(#glow)" />
-                
-                {/* Animated Connections */}
-                <line x1="80" y1="80" x2="160" y2="160" stroke="url(#nodeGradient)" strokeWidth="1" opacity="0.3" className="shimmer" />
-                <line x1="240" y1="80" x2="160" y2="160" stroke="url(#nodeGradient)" strokeWidth="1" opacity="0.3" className="shimmer" style={{ animationDelay: '0.3s' }} />
-                <line x1="80" y1="240" x2="160" y2="160" stroke="url(#nodeGradient)" strokeWidth="1" opacity="0.3" className="shimmer" style={{ animationDelay: '0.6s' }} />
-                <line x1="240" y1="240" x2="160" y2="160" stroke="url(#nodeGradient)" strokeWidth="1" opacity="0.3" className="shimmer" style={{ animationDelay: '0.9s' }} />
-                <line x1="80" y1="80" x2="240" y2="80" stroke="url(#nodeGradient)" strokeWidth="0.5" opacity="0.2" />
-                <line x1="80" y1="240" x2="240" y2="240" stroke="url(#nodeGradient)" strokeWidth="0.5" opacity="0.2" />
+
+                {/* Connection lines */}
+                {[
+                  [80, 80, 160, 160], [240, 80, 160, 160],
+                  [80, 240, 160, 160], [240, 240, 160, 160],
+                  [80, 80, 240, 80],  [80, 240, 240, 240],
+                  [80, 80, 80, 240],  [240, 80, 240, 240],
+                ].map(([x1, y1, x2, y2], i) => (
+                  <line
+                    key={i}
+                    x1={x1} y1={y1} x2={x2} y2={y2}
+                    stroke="url(#ng)"
+                    strokeWidth="0.8"
+                    style={{ animation: 'shimmerLine 2.5s ease-in-out infinite', animationDelay: `${i * 0.28}s` }}
+                  />
+                ))}
+
+                {/* Outer nodes */}
+                {[[80,80],[240,80],[80,240],[240,240]].map(([cx,cy], i) => (
+                  <circle
+                    key={i} cx={cx} cy={cy} r="4"
+                    fill="url(#ng)" filter="url(#glow)"
+                    style={{ animation: `nodeFloat ${4 + i * 0.4}s ease-in-out infinite`, animationDelay: `${i * 0.5}s` }}
+                  />
+                ))}
+
+                {/* Centre node */}
+                <circle cx="160" cy="160" r="7" fill="rgba(210,45,30,0.95)" filter="url(#glow)"
+                  style={{ animation: 'nodeFloat 3.5s ease-in-out infinite' }}
+                />
+                <circle cx="160" cy="160" r="14" fill="none" stroke="rgba(210,45,30,0.2)" strokeWidth="1"
+                  style={{ animation: 'nodeFloat 3.5s ease-in-out infinite' }}
+                />
               </svg>
             </div>
-            
-            {/* Enhanced Data Streams */}
-            <div className="absolute bottom-10 left-10 w-2 h-20 bg-gradient-to-b from-[var(--accent-red)] to-transparent opacity-40 float-animation" style={{ animationDelay: '0.5s' }} />
-            <div className="absolute bottom-10 left-16 w-2 h-16 bg-gradient-to-b from-[var(--gradient-coral)] to-transparent opacity-30 float-animation" style={{ animationDelay: '1.5s' }} />
-            <div className="absolute bottom-10 left-22 w-1 h-12 bg-gradient-to-b from-[var(--accent-red)] to-transparent opacity-25 float-animation" style={{ animationDelay: '2s' }} />
-            
-            {/* Enhanced Glowing Orbs */}
-            <div className="absolute top-1/3 left-1/4 w-16 h-16 bg-[var(--accent-red)]/20 rounded-full blur-xl pulse-glow" />
-            <div className="absolute top-1/2 right-1/4 w-12 h-12 bg-[var(--gradient-coral)]/15 rounded-full blur-lg pulse-glow" style={{ animationDelay: '1s' }} />
-            <div className="absolute bottom-1/3 left-1/3 w-8 h-8 bg-[var(--accent-red)]/10 rounded-full blur-md pulse-glow" style={{ animationDelay: '2s' }} />
 
-            {/* Floating Particles */}
-            {[...Array(6)].map((_, i) => (
+            {/* Data stream bars */}
+            {[0, 1, 2].map((i) => (
               <div
                 key={i}
-                className="absolute w-1 h-1 bg-[var(--accent-red)]/40 rounded-full float-animation"
+                className="absolute"
                 style={{
-                  left: `${20 + i * 12}%`,
-                  top: `${30 + (i % 2) * 20}%`,
-                  animationDelay: `${i * 0.3}s`,
-                  animationDuration: `${3 + i * 0.5}s`
+                  bottom: 48, left: 48 + i * 14,
+                  width: 2,
+                  height: [56, 40, 28][i],
+                  background: `linear-gradient(to top, rgba(200,${40 + i * 20},30,0.6), transparent)`,
+                  animation: `nodeFloat ${3 + i * 0.7}s ease-in-out infinite`,
+                  animationDelay: `${i * 0.5}s`,
                 }}
               />
             ))}
+
+            {/* Floating particles */}
+            {[...Array(6)].map((_, i) => (
+              <div
+                key={i}
+                className="absolute rounded-full"
+                style={{
+                  left: `${18 + i * 11}%`,
+                  top:  `${28 + (i % 3) * 18}%`,
+                  width: 3, height: 3,
+                  background: 'rgba(200,45,35,0.5)',
+                  animation: `nodeFloat ${3.5 + i * 0.45}s ease-in-out infinite`,
+                  animationDelay: `${i * 0.3}s`,
+                }}
+              />
+            ))}
+
           </div>
         </div>
-
       </div>
 
-
-
-      {/* Enhanced Scroll Indicator */}
+      {/* ── SCROLL INDICATOR ── */}
       <div
         ref={scrollRef}
-        className="absolute bottom-6 sm:bottom-10 left-1/2 -translate-x-1/2 z-[2] flex flex-col items-center gap-2 sm:gap-3 opacity-0"
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-[2] flex flex-col items-center gap-2 opacity-0"
       >
-        <div className="flex items-center gap-1 sm:gap-2">
-          <Brain className="w-3 h-3 sm:w-4 sm:h-4 text-[var(--accent-red)]" />
-          <span className="text-label font-medium text-[10px] sm:text-[11px]" style={{ color: 'var(--text-tertiary)', letterSpacing: '0.1em' }}>SCROLL TO EXPLORE</span>
+        <div className="flex items-center gap-2">
+          <Brain style={{ width: 12, height: 12, color: 'rgba(200,50,40,0.7)' }} />
+          <span style={{ color: 'rgba(255,255,255,0.25)', fontSize: '0.6rem', letterSpacing: '0.22em', fontWeight: 600, textTransform: 'uppercase' }}>
+            Scroll to Explore
+          </span>
         </div>
-        <div className="relative">
+        <div className="relative flex flex-col items-center" style={{ height: 44 }}>
           <div
-            className="w-0.5 bg-gradient-to-b from-[var(--accent-red)] to-transparent"
-            style={{ height: '32px sm:h-48px', animation: 'scrollLine 2s ease-in-out infinite' }}
+            className="w-px"
+            style={{
+              height: 36,
+              background: 'linear-gradient(to bottom, rgba(200,45,35,0.7), transparent)',
+              animation: 'scrollLine 2s ease-in-out infinite',
+            }}
           />
-          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1.5 h-1.5 sm:w-2 sm:h-2 bg-[var(--accent-red)] rounded-full animate-pulse" />
+          <div
+            className="absolute bottom-0 w-1.5 h-1.5 rounded-full"
+            style={{ background: 'rgba(200,45,35,0.8)' }}
+          />
         </div>
-        <style>{`
-          @keyframes scrollLine {
-            0% { transform: scaleY(0); transform-origin: top; }
-            50% { transform: scaleY(1); transform-origin: top; }
-            50.1% { transform-origin: bottom; }
-            100% { transform: scaleY(0); transform-origin: bottom; }
-          }
-        `}</style>
       </div>
 
     </section>
-
   )
-
 }
-

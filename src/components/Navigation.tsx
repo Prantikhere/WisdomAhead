@@ -1,124 +1,59 @@
+'use client'
+
 import { useEffect, useRef, useState } from 'react'
 import { Link, useLocation } from 'react-router'
 import gsap from 'gsap'
-import { Menu, X } from 'lucide-react'
-
-
+import { 
+  Menu, X, Home, Info, Briefcase, 
+  BookOpen, Mail, ChevronRight 
+} from 'lucide-react'
 
 const navLinks = [
-
-  { label: 'Home', href: '/' },
-
-  { label: 'About', href: '/about' },
-
-  { label: 'Capabilities', href: '/#capabilities', icon: '' },
-
-  { label: 'Knowledge Hub', href: '/knowledge-hub' },
-
-  { label: 'Contact', href: '/#contact', icon: '' },
-
+  { label: 'Home', href: '/', icon: Home },
+  { label: 'About', href: '/about', icon: Info },
+  { label: 'Capabilities', href: '/#capabilities', icon: Briefcase },
+  { label: 'Knowledge Hub', href: '/knowledge-hub', icon: BookOpen },
+  { label: 'Contact', href: '/#contact', icon: Mail },
 ]
 
-
-
 export default function Navigation() {
-
   const [scrolled, setScrolled] = useState(false)
-
   const [mobileOpen, setMobileOpen] = useState(false)
-
   const navRef = useRef<HTMLElement>(null)
-
   const location = useLocation()
 
-
-
   useEffect(() => {
-
-    const onScroll = () => setScrolled(window.scrollY > 100)
-
+    const onScroll = () => setScrolled(window.scrollY > 20)
     window.addEventListener('scroll', onScroll, { passive: true })
-
     return () => window.removeEventListener('scroll', onScroll)
-
   }, [])
 
-
-
   useEffect(() => {
-
     if (navRef.current) {
-
       gsap.fromTo(navRef.current,
-
         { y: -100, opacity: 0 },
-
-        { y: 0, opacity: 1, duration: 0.6, delay: 0.3, ease: 'power3.out' }
-
+        { y: 0, opacity: 1, duration: 1, ease: 'expo.out' }
       )
-
     }
-
   }, [])
 
-
-
+  // Sync Mobile State with Global Backdrop & Scroll Lock
   useEffect(() => {
-
-    setMobileOpen(false)
-
-  }, [location.pathname])
-
-
+    document.body.style.overflow = mobileOpen ? 'hidden' : 'unset'
+    window.dispatchEvent(new CustomEvent('mobileMenuToggle', { detail: mobileOpen }))
+  }, [mobileOpen])
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-
+    setMobileOpen(false)
     if (href.startsWith('/#')) {
-
       const id = href.replace('/#', '')
-
       if (location.pathname === '/') {
-
         e.preventDefault()
-
         const el = document.getElementById(id)
-
         if (el) el.scrollIntoView({ behavior: 'smooth' })
-
       }
-
-      // If not on home page, let the default navigation happen
-
-      // (react-router will navigate to / and then scroll)
-
     }
-
   }
-
-
-
-  // Handle scroll-to-hash after navigation to home page
-
-  useEffect(() => {
-
-    if (location.pathname === '/' && location.hash) {
-
-      const id = location.hash.replace('#', '')
-
-      const el = document.getElementById(id)
-
-      if (el) {
-
-        setTimeout(() => {
-
-          el.scrollIntoView({ behavior: 'smooth' })
-
-        }, 100)
-
-      }
-
-    }
-  }, [location])
 
   return (
     <>
@@ -126,144 +61,114 @@ export default function Navigation() {
         ref={navRef}
         className="fixed top-0 left-0 w-full z-[100] transition-all duration-500"
         style={{
-          background: scrolled
-            ? 'rgba(255,255,255,0.95)'
-            : 'rgba(255,255,255,0.85)',
-          backdropFilter: scrolled
-            ? 'blur(20px)'
-            : 'blur(16px)',
-          WebkitBackdropFilter: scrolled
-            ? 'blur(20px)'
-            : 'blur(16px)',
-          borderBottom: scrolled
-            ? '1px solid rgba(214,52,71,0.1)'
-            : '1px solid rgba(0,0,0,0.05)',
-          height: '64px',
-          boxShadow: scrolled
-            ? '0 4px 30px rgba(0,0,0,0.08)'
-            : 'none',
+          height: scrolled ? '85px' : '105px', // Increased height to fit larger logo
+          background: scrolled ? 'rgba(10, 10, 10, 0.85)' : 'transparent',
+          backdropFilter: scrolled ? 'blur(20px)' : 'none',
+          WebkitBackdropFilter: scrolled ? 'blur(20px)' : 'none',
+          borderBottom: scrolled ? '1px solid rgba(220, 38, 38, 0.2)' : '1px solid transparent',
         }}
       >
-        <div className="container-main h-full flex items-center justify-between px-3 sm:px-4 md:px-6 lg:px-8">
-          {/* Logo */}
-          <Link
-            to="/"
-            className="flex items-center shrink-0 group transition-transform duration-300 hover:scale-105"
-          >
-            <div className="relative">
-              <div className="absolute inset-0 bg-gradient-to-r from-[var(--accent-red)]/20 to-[var(--gradient-coral)]/20 rounded-lg blur-md group-hover:blur-lg transition-all duration-300" />
-              <img
-                src="/images/logo-original.png"
-                alt="Wisdomahead"
-                className="h-7 sm:h-8 md:h-9 lg:h-10 w-auto relative z-10"
-              />
-            </div>
+        <div className="container-main h-full flex items-center justify-between px-6">
+          {/* --- BIGGER LOGO --- */}
+          <Link to="/" className="relative z-[110] transition-transform hover:scale-105">
+            <img
+              src="/images/logo-original.png"
+              alt="Wisdomahead"
+              className="h-10 sm:h-12 lg:h-14 w-auto brightness-0 invert object-contain" 
+            />
           </Link>
 
-          {/* Desktop Nav Links */}
-          <div className="hidden xl:flex items-center gap-6 lg:gap-8">
-            {navLinks.map((link, index) => (
+          {/* Desktop Links */}
+          <div className="hidden lg:flex items-center gap-8">
+            {navLinks.map((link) => (
               <Link
                 key={link.label}
                 to={link.href}
                 onClick={(e) => handleNavClick(e, link.href)}
-                className="font-sans text-[13px] lg:text-[14px] font-medium tracking-[0.01em] text-black relative group py-2 px-3 rounded-lg transition-all duration-300 hover:bg-[var(--accent-red)]/5"
-                style={{
-                  animationDelay: `${index * 0.1}s`,
-                }}
+                className="flex items-center gap-2 text-[15px] font-medium text-white/70 hover:text-[var(--accent-red)] transition-all duration-300 group"
               >
-                <span className="relative z-10 transition-all duration-300 group-hover:text-[var(--accent-red)]">
-                  {link.label}
-                </span>
-                <div className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-gradient-to-r from-[var(--accent-red)] to-[var(--gradient-coral)] transition-all duration-300 group-hover:w-full group-hover:left-0 rounded-full" />
+                <link.icon size={16} className="text-white/30 group-hover:text-[var(--accent-red)] transition-colors" />
+                <span>{link.label}</span>
               </Link>
             ))}
           </div>
 
-          {/* CTA Button */}
+          {/* CTA - Red Ombre Gradient (Cleaned) */}
           <div className="hidden lg:block">
             <Link
               to="/#contact"
               onClick={(e) => handleNavClick(e, '/#contact')}
-              className="inline-flex items-center gap-2 px-4 lg:px-6 py-2.5 lg:py-3 text-white text-[13px] lg:text-[14px] font-medium transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl relative overflow-hidden group rounded-lg"
-              style={{ background: 'linear-gradient(135deg, var(--accent-red), var(--gradient-coral))' }}
+              className="relative px-7 py-2.5 rounded-full text-white text-sm font-semibold transition-all duration-300 hover:scale-105 hover:shadow-[0_0_25px_rgba(220,38,38,0.4)] overflow-hidden group block"
+              style={{ background: 'linear-gradient(135deg, #dc2626 0%, #7f1d1d 100%)' }}
             >
-              <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              <span className="relative z-10 hidden sm:inline">Get Started</span>
-              <span className="relative z-10 sm:hidden">Start</span>
-              <svg className="w-4 h-4 relative z-10 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                <line x1="5" y1="12" x2="19" y2="12" />
-                <polyline points="12 5 19 12 12 19" />
-              </svg>
+              <span className="relative z-10 transition-all duration-300 group-hover:tracking-wide">
+                Get Started
+              </span>
+              <div className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
             </Link>
           </div>
 
-          {/* Mobile Menu Button */}
+          {/* Mobile Toggle */}
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className="xl:hidden flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 rounded-lg transition-all duration-300 hover:bg-[var(--accent-red)]/10"
-            style={{ color: 'var(--accent-red)' }}
+            className="lg:hidden relative z-[110] p-2 bg-white/5 rounded-lg text-white transition-colors hover:bg-red-600/20"
           >
-            {mobileOpen ? (
-              <X className="w-4 h-4 sm:w-5 sm:h-5" />
-            ) : (
-              <Menu className="w-4 h-4 sm:w-5 sm:h-5" />
-            )}
+            {mobileOpen ? <X size={28} /> : <Menu size={28} />}
           </button>
         </div>
 
-        {/* Mobile Menu */}
-        <div className={`xl:hidden absolute top-full left-0 w-full transition-all duration-500 ${mobileOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2 pointer-events-none'}`}
-          style={{
-            background: 'rgba(255,255,255,0.95) backdrop-filter: blur(30px) saturate(150%)',
-            borderTop: '1px solid rgba(214,52,71,0.15)',
-            boxShadow: '0 10px 40px rgba(0,0,0,0.15)'
-          }}
+        {/* --- MOBILE DROPDOWN OVERLAY --- */}
+        <div 
+          className={`fixed inset-0 lg:hidden transition-all duration-700 ease-in-out ${
+            mobileOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
+          }`}
         >
-          <div className="container-main py-4 sm:py-6">
-            <div className="flex flex-col gap-1 sm:gap-2">
-              {navLinks.map((link, index) => (
+          {/* Note: The main blur comes from your GlobalBackdrop component */}
+          <div 
+            className={`relative w-full bg-gradient-to-b from-[#0a0a0a] to-transparent border-b border-red-900/30 px-6 pt-28 pb-12 transition-transform duration-500 ${
+              mobileOpen ? 'translate-y-0' : '-translate-y-full'
+            }`}
+          >
+            <div className="flex flex-col gap-4">
+              {navLinks.map((link, i) => (
                 <Link
                   key={link.label}
                   to={link.href}
-                  onClick={(e) => {
-                    handleNavClick(e, link.href)
-                    setMobileOpen(false)
-                  }}
-                  className="font-sans text-[14px] sm:text-[15px] font-medium py-3 sm:py-4 px-3 sm:px-4 rounded-lg transition-all duration-300 hover:bg-[var(--accent-red)]/5 hover:text-[var(--accent-red)]"
-                  style={{
-                    animationDelay: `${index * 0.05}s`,
+                  onClick={(e) => handleNavClick(e, link.href)}
+                  className="flex items-center justify-between p-4 rounded-xl bg-white/5 border border-white/5 hover:border-red-500/50 hover:bg-red-500/10 transition-all group"
+                  style={{ 
+                    transitionDelay: `${i * 50}ms`,
+                    transform: mobileOpen ? 'translateX(0)' : 'translateX(-20px)'
                   }}
                 >
-                  {link.label}
+                  <div className="flex items-center gap-4">
+                    <div className="p-2 rounded-lg bg-red-500/10 text-red-500">
+                      <link.icon size={22} />
+                    </div>
+                    <span className="text-lg font-medium text-white">{link.label}</span>
+                  </div>
+                  <ChevronRight size={18} className="text-white/20 group-hover:text-red-500 group-hover:translate-x-1 transition-all" />
                 </Link>
               ))}
-              <div className="pt-3 sm:pt-4 mt-2 border-t border-gray-200">
-                <Link
-                  to="/#contact"
-                  onClick={(e) => {
-                    handleNavClick(e, '/#contact')
-                    setMobileOpen(false)
-                  }}
-                  className="inline-flex items-center justify-center gap-2 w-full px-4 sm:px-6 py-3 sm:py-4 text-white text-[14px] sm:text-[15px] font-medium transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl relative overflow-hidden group rounded-lg"
-                  style={{ background: 'linear-gradient(135deg, var(--accent-red), var(--gradient-coral))' }}
-                >
-                  <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  <span className="relative z-10">Get Started</span>
-                  <svg className="w-4 h-4 sm:w-5 sm:h-5 relative z-10" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                    <line x1="5" y1="12" x2="19" y2="12" />
-                    <polyline points="12 5 19 12 12 19" />
-                  </svg>
-                </Link>
-              </div>
+              
+              <Link
+                to="/#contact"
+                onClick={() => setMobileOpen(false)}
+                className="mt-4 w-full py-5 rounded-xl text-center text-white font-bold text-lg shadow-lg"
+                style={{ background: 'linear-gradient(135deg, #dc2626 0%, #991b1b 100%)' }}
+              >
+                Get Started
+              </Link>
             </div>
           </div>
         </div>
       </nav>
 
+      {/* FIXED CSS BLOCK (No 'jsx' attribute to avoid TS errors) */}
+      <style>{`
+        nav { will-change: height, background, backdrop-filter; }
+        .container-main { max-width: 1400px; margin: 0 auto; }
+      `}</style>
     </>
-
   )
-
 }
-

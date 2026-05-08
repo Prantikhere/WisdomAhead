@@ -1,267 +1,309 @@
+'use client'
+
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import TiltCard from '@/components/TiltCard'
 import { Zap, Target, Shield, TrendingUp, ArrowRight } from 'lucide-react'
-
-
 
 gsap.registerPlugin(ScrollTrigger)
 
-
-
 const capabilities = [
-
   {
-
     index: '01',
-
     title: 'Strategic Business Process Optimization',
-
     body: 'We map every operational layer of your media organization — from editorial production to distribution logistics — identifying friction points where manual processes drain margin and slow decision-making. Our recommendations are grounded in four decades of C-suite media leadership, not theoretical frameworks.',
-
   },
-
   {
-
     index: '02',
-
     title: 'Intelligent Workflow Orchestration',
-
     body: 'Media enterprises run on complex, interdependent workflows. We design AI-native orchestration systems that coordinate content production, cross-platform adaptation, and resource allocation — reducing time-to-market by 40-60% while preserving editorial quality and creative control.',
-
   },
-
   {
-
     index: '03',
-
     title: 'Secure Corporate Intelligence',
-
     body: 'Your archives, subscriber data, and competitive research represent decades of proprietary value. We architect private intelligence systems that transform this data into real-time strategic insights — all while ensuring zero exposure to public AI platforms and complete regulatory compliance.',
-
   },
-
   {
-
     index: '04',
-
     title: 'Operational Cost Transformation',
-
     body: 'True cost transformation in media requires more than automation — it requires reimagining how human capital is deployed. We help shift teams from repetitive execution to strategic oversight, using AI-led systems that augment rather than replace institutional expertise.',
-
   },
-
 ]
 
-
+const icons = [Zap, Target, Shield, TrendingUp]
 
 export default function CoreCapabilities() {
-
   const sectionRef = useRef<HTMLElement>(null)
-
   const headingRef = useRef<HTMLDivElement>(null)
-
-  const cardsRef = useRef<HTMLDivElement>(null)
-
-
+  const cardsRef   = useRef<HTMLDivElement>(null)
+  const ctaRef     = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-
     if (!sectionRef.current) return
 
-
-
     const ctx = gsap.context(() => {
-
+      /* Heading fade up */
       gsap.fromTo(headingRef.current,
-
-        { y: 40, opacity: 0 },
-
+        { y: 32, opacity: 0 },
         {
-
-          y: 0, opacity: 1, duration: 0.8, ease: 'power3.out',
-
-          scrollTrigger: { trigger: sectionRef.current, start: 'top 80%', toggleActions: 'play none none none' },
-
+          y: 0, opacity: 1, duration: 0.9, ease: 'power3.out',
+          scrollTrigger: { trigger: headingRef.current, start: 'top 85%', toggleActions: 'play none none none' },
         }
-
       )
 
-
-
-      const cards = cardsRef.current?.querySelectorAll('.cap-card')
-
-      if (cards) {
-
-        gsap.fromTo(cards,
-
-          { y: 80, opacity: 0, rotateX: -15 },
-
+      /* Cards stagger up */
+      if (cardsRef.current) {
+        gsap.fromTo(cardsRef.current.querySelectorAll('.cap-card'),
+          { y: 48, opacity: 0 },
           {
-
-            y: 0, opacity: 1, rotateX: 0, duration: 0.9, stagger: 0.15, ease: 'power3.out',
-
-            scrollTrigger: { trigger: cardsRef.current, start: 'top 85%', toggleActions: 'play none none none' },
-
+            y: 0, opacity: 1, duration: 0.85, stagger: 0.13, ease: 'power3.out',
+            scrollTrigger: { trigger: cardsRef.current, start: 'top 88%', toggleActions: 'play none none none' },
           }
-
         )
-
       }
 
+      /* CTA fade */
+      gsap.fromTo(ctaRef.current,
+        { y: 20, opacity: 0 },
+        {
+          y: 0, opacity: 1, duration: 0.7, ease: 'power2.out',
+          scrollTrigger: { trigger: ctaRef.current, start: 'top 92%', toggleActions: 'play none none none' },
+        }
+      )
     }, sectionRef)
 
-
-
     return () => ctx.revert()
-
   }, [])
-
-
 
   return (
     <section
       ref={sectionRef}
       id="capabilities"
-      className="relative bg-white overflow-hidden"
-      style={{ padding: 'clamp(60px, 8vw, 140px) 0' }}
+      className="relative overflow-hidden"
+      style={{
+        background: 'linear-gradient(160deg, #0a0808 0%, #140d0d 50%, #0a0808 100%)',
+        padding: 'clamp(64px, 9vw, 130px) 0',
+      }}
     >
-      {/* Enhanced Background decoration */}
+      {/* Atmosphere */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-10 sm:top-20 left-5 sm:left-10 w-64 sm:w-80 lg:w-96 h-64 sm:h-80 lg:h-96 bg-gradient-to-br from-[var(--accent-red)]/8 to-[var(--gradient-coral)]/4 rounded-full blur-3xl float-animation" style={{ animationDelay: '0s' }} />
-        <div className="absolute bottom-10 sm:bottom-20 right-5 sm:right-10 w-80 sm:w-96 lg:w-[500px] h-80 sm:h-96 lg:w-[500px] bg-gradient-to-tl from-[var(--gradient-coral)]/6 to-[var(--accent-red)]/3 rounded-full blur-3xl float-animation" style={{ animationDelay: '2s' }} />
-        <div className="absolute top-1/2 left-1/4 sm:left-1/3 w-64 sm:w-80 lg:w-96 h-64 sm:h-80 lg:h-96 bg-gradient-to-r from-[var(--gradient-gold)]/4 to-transparent rounded-full blur-2xl float-animation" style={{ animationDelay: '4s' }} />
+        <div style={{
+          position: 'absolute', inset: 0,
+          background: 'radial-gradient(ellipse 70% 50% at 50% 0%, rgba(160,25,25,0.12) 0%, transparent 65%)',
+        }} />
+        <div style={{
+          position: 'absolute', inset: 0,
+          background: 'radial-gradient(ellipse 50% 40% at 0% 60%, rgba(160,25,25,0.07) 0%, transparent 60%)',
+        }} />
+        {/* Grain */}
+        <div
+          className="absolute inset-0 opacity-[0.022]"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
+            backgroundSize: '180px 180px',
+          }}
+        />
       </div>
 
+      <div className="relative z-10 max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
 
+        {/* ── HEADING BLOCK ── */}
+        <div ref={headingRef} className="text-center mb-14 lg:mb-20" style={{ opacity: 0 }}>
 
-      <div className="container-main relative z-[2] px-3 sm:px-4 md:px-6">
-        <div ref={headingRef} className="text-center mb-12 sm:mb-16 lg:mb-20 opacity-0">
-          <div className="inline-flex items-center gap-2 sm:gap-3 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full border glass-effect mb-6 sm:mb-8" style={{ 
-            color: 'var(--accent-red)', 
-            borderColor: 'rgba(214,52,71,0.2)',
-            background: 'rgba(214,52,71,0.05)',
-            backdropFilter: 'blur(10px)'
-          }}>
-            <Target className="w-3 h-3 sm:w-4 sm:h-4 text-[var(--accent-red)]" />
-            <span className="text-label font-medium tracking-[0.1em] text-xs sm:text-sm">
-              CORE CAPABILITIES
+          {/* Label pill */}
+          <div
+            className="inline-flex items-center gap-2 px-4 py-1.5 mb-8 rounded-full"
+            style={{
+              border: '1px solid rgba(200,40,40,0.35)',
+              background: 'rgba(200,40,40,0.08)',
+            }}
+          >
+            <span style={{ color: 'rgba(220,70,50,0.9)', fontSize: '0.68rem', letterSpacing: '0.2em', fontWeight: 600 }}>
+              ✦ CORE CAPABILITIES
             </span>
           </div>
-          
-          <h2 className="text-h1 relative max-w-full sm:max-w-4xl lg:max-w-5xl mx-auto mb-4 sm:mb-6">
-            <span className="gradient-text font-bold text-3xl sm:text-4xl lg:text-5xl xl:text-6xl">Four Pillars</span>
-            <br className="hidden sm:block" />
-            <span className="text-black text-3xl sm:text-4xl lg:text-5xl xl:text-6xl">of Transformation</span>
+
+          {/* Title */}
+          <h2
+            className="leading-tight mb-5"
+            style={{ fontFamily: '"Georgia", "Times New Roman", serif' }}
+          >
+            <span
+              className="block italic"
+              style={{
+                fontSize: 'clamp(2rem, 5vw, 3.4rem)',
+                background: 'linear-gradient(135deg, #e03030 0%, #e06040 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text',
+                fontWeight: 700,
+              }}
+            >
+              Four Pillars
+            </span>
+            <span
+              className="block"
+              style={{
+                fontSize: 'clamp(2rem, 5vw, 3.4rem)',
+                color: '#fff',
+                fontWeight: 700,
+              }}
+            >
+              of Transformation
+            </span>
           </h2>
-          
-          <p className="text-base sm:text-lg text-gray-600 max-w-full sm:max-w-3xl lg:max-w-4xl mx-auto leading-relaxed">
+
+          <p style={{ color: 'rgba(255,255,255,0.45)', fontSize: 'clamp(0.83rem, 1.5vw, 0.97rem)', maxWidth: 520, margin: '0 auto', lineHeight: 1.7 }}>
             Our comprehensive approach combines strategic insight with technical excellence to deliver measurable results for media enterprises.
           </p>
         </div>
 
-
-
-        <div ref={cardsRef} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8" style={{ perspective: '1000px' }}>
+        {/* ── CARDS GRID ── */}
+        <div
+          ref={cardsRef}
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-0"
+          style={{
+            border: '1px solid rgba(255,255,255,0.07)',
+            borderRadius: 4,
+            overflow: 'hidden',
+          }}
+        >
           {capabilities.map((cap, i) => {
-            const icons = [Zap, Target, Shield, TrendingUp]
             const Icon = icons[i]
             return (
-              <TiltCard
+              <div
                 key={cap.index}
-                tiltAmount={8}
-                className="cap-card opacity-0"
+                className="cap-card group relative flex flex-col"
+                style={{
+                  opacity: 0,
+                  padding: 'clamp(24px, 3vw, 40px)',
+                  borderRight: i < capabilities.length - 1 ? '1px solid rgba(255,255,255,0.07)' : 'none',
+                  background: 'rgba(255,255,255,0.015)',
+                  cursor: 'default',
+                  transition: 'background 0.35s ease',
+                }}
+                onMouseEnter={e => {
+                  (e.currentTarget as HTMLDivElement).style.background = 'rgba(180,30,30,0.06)'
+                }}
+                onMouseLeave={e => {
+                  (e.currentTarget as HTMLDivElement).style.background = 'rgba(255,255,255,0.015)'
+                }}
               >
-                <div
-                  className="p-6 sm:p-8 lg:p-10 transition-all duration-500 h-full group relative overflow-hidden rounded-xl sm:rounded-2xl hover-lift"
+                {/* Top: number + icon */}
+                <div className="flex items-center justify-between mb-6">
+                  <span
+                    style={{
+                      fontFamily: '"Georgia", serif',
+                      fontSize: 'clamp(1.4rem, 2.5vw, 1.8rem)',
+                      fontWeight: 700,
+                      background: 'linear-gradient(135deg, #e03030, #e06040)',
+                      WebkitBackgroundClip: 'text',
+                      WebkitTextFillColor: 'transparent',
+                      backgroundClip: 'text',
+                      lineHeight: 1,
+                    }}
+                  >
+                    {cap.index}
+                  </span>
+                  <Icon
+                    className="transition-all duration-300 group-hover:scale-110 group-hover:text-[rgba(220,70,50,1)]"
+                    style={{ width: 18, height: 18, color: 'rgba(200,50,40,0.7)', flexShrink: 0 }}
+                    strokeWidth={1.8}
+                  />
+                </div>
+
+                {/* Title */}
+                <h3
+                  className="mb-4 leading-snug font-bold"
                   style={{
-                    background: 'linear-gradient(135deg, rgba(255,255,255,0.9), rgba(255,255,255,0.98))',
-                    border: '1px solid rgba(0,0,0,0.08)',
-                    boxShadow: '0 4px sm:0 6px lg:0 8px 32px rgba(0,0,0,0.12)'
+                    color: '#fff',
+                    fontSize: 'clamp(0.9rem, 1.5vw, 1.05rem)',
+                    fontFamily: '"Georgia", serif',
+                    transition: 'color 0.3s ease',
                   }}
                 >
-                  <div className="absolute inset-0 bg-gradient-to-br from-transparent via-[var(--accent-red)]/3 to-[var(--gradient-coral)]/3 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-xl sm:rounded-2xl" />
-                  <div className="absolute top-0 right-0 w-24 sm:w-32 h-24 sm:w-32 bg-gradient-to-bl from-[var(--accent-red)]/15 to-transparent rounded-full blur-xl sm:blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                  
-                  <div className="relative z-10">
-                    <div className="flex items-center justify-between mb-4 sm:mb-6">
-                      <div className="flex items-center gap-2 sm:gap-3">
-                        <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-gradient-to-br from-[var(--accent-red)]/20 to-[var(--gradient-coral)]/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                          <Icon className="w-5 h-5 sm:w-6 sm:h-6 text-[var(--accent-red)]" strokeWidth={2} />
-                        </div>
-                        <span className="font-serif text-xl sm:text-2xl gradient-text font-bold">
-                          {cap.index}
-                        </span>
-                      </div>
-                      <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gradient-to-br from-[var(--accent-red)]/20 to-[var(--gradient-coral)]/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                        <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 bg-[var(--accent-red)] rounded-full" />
-                      </div>
-                    </div>
+                  {cap.title}
+                </h3>
 
-                    <h3 className="text-h3 text-black mb-3 sm:mb-5 group-hover:gradient-text transition-colors duration-500 font-bold leading-tight text-base sm:text-lg lg:text-xl">
-                      {cap.title}
-                    </h3>
+                {/* Body */}
+                <p
+                  style={{
+                    color: 'rgba(255,255,255,0.42)',
+                    fontSize: '0.8rem',
+                    lineHeight: 1.75,
+                    flexGrow: 1,
+                  }}
+                >
+                  {cap.body}
+                </p>
 
-                    <p className="text-sm sm:text-base leading-relaxed mb-4 sm:mb-6" style={{ color: 'var(--text-secondary)' }}>
-                      {cap.body}
-                    </p>
-
-                    <div className="mt-auto pt-3 sm:pt-4">
-                      <div className="flex items-center justify-between">
-                        <div
-                          className="h-0.5 transition-all duration-500 group-hover:w-full w-12 sm:w-16"
-                          style={{ background: 'linear-gradient(90deg, var(--accent-red), var(--gradient-coral))' }}
-                        />
-                        <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full border-2 border-[var(--accent-red)]/30 flex items-center justify-center group-hover:border-[var(--accent-red)] group-hover:bg-[var(--accent-red)]/10 transition-all duration-300">
-                          <ArrowRight className="w-3 h-3 sm:w-4 sm:h-4 text-[var(--accent-red)] group-hover:text-white transition-colors duration-300" strokeWidth={2} />
-                        </div>
-                      </div>
-                    </div>
+                {/* Bottom divider + details link */}
+                <div className="mt-8">
+                  <div
+                    className="mb-4"
+                    style={{
+                      height: 1,
+                      background: 'linear-gradient(to right, rgba(200,40,40,0.5), rgba(200,40,40,0.08))',
+                      transition: 'opacity 0.3s ease',
+                    }}
+                  />
+                  <div
+                    className="inline-flex items-center gap-2 transition-all duration-300 group-hover:gap-3"
+                    style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.68rem', letterSpacing: '0.14em', fontWeight: 600, textTransform: 'uppercase' }}
+                  >
+                    <span className="group-hover:text-[rgba(220,70,50,0.9)] transition-colors duration-300">DETAILS</span>
+                    <ArrowRight
+                      className="group-hover:text-[rgba(220,70,50,0.9)] transition-all duration-300 group-hover:translate-x-1"
+                      style={{ width: 12, height: 12 }}
+                      strokeWidth={2.5}
+                    />
                   </div>
                 </div>
-              </TiltCard>
+              </div>
             )
           })}
         </div>
 
-
-
-        {/* Enhanced Bottom CTA */}
-        <div className="text-center mt-12 sm:mt-16 lg:mt-20">
+        {/* ── BOTTOM CTA ── */}
+        <div ref={ctaRef} className="text-center mt-16 lg:mt-20" style={{ opacity: 0 }}>
           <a
             href="#contact"
             onClick={(e) => {
               e.preventDefault()
               document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })
             }}
-            className="group inline-flex items-center gap-3 sm:gap-4 px-8 sm:px-10 py-3 sm:py-4 lg:py-5 text-white font-semibold rounded-full transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl relative overflow-hidden"
-            style={{ 
-              background: 'linear-gradient(135deg, var(--accent-red), var(--gradient-coral))',
-              backgroundSize: '200% 200%',
-              fontSize: '0.9rem sm:text-1rem lg:text-1.1rem'
+            className="group inline-flex items-center gap-3 font-semibold relative overflow-hidden"
+            style={{
+              background: 'linear-gradient(135deg, #cc2828, #d94a2a)',
+              color: '#fff',
+              padding: '15px 36px',
+              borderRadius: 4,
+              fontSize: '0.75rem',
+              letterSpacing: '0.16em',
+              textTransform: 'uppercase',
+              textDecoration: 'none',
+              transition: 'transform 0.25s ease, box-shadow 0.25s ease',
+            }}
+            onMouseEnter={e => {
+              (e.currentTarget as HTMLAnchorElement).style.transform = 'translateY(-2px)'
+              ;(e.currentTarget as HTMLAnchorElement).style.boxShadow = '0 10px 36px rgba(200,40,40,0.4)'
+            }}
+            onMouseLeave={e => {
+              (e.currentTarget as HTMLAnchorElement).style.transform = 'translateY(0)'
+              ;(e.currentTarget as HTMLAnchorElement).style.boxShadow = 'none'
             }}
           >
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out rounded-full" />
-            <Zap className="w-4 h-4 sm:w-5 sm:h-5 relative z-10" />
+            {/* Shine sweep */}
+            <div
+              className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out"
+              style={{ background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent)', pointerEvents: 'none' }}
+            />
             <span className="relative z-10">Explore Our Solutions</span>
-            <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 relative z-10 transition-transform duration-300 group-hover:translate-x-1" strokeWidth={2} />
+            <Zap className="relative z-10 w-4 h-4 transition-transform duration-300 group-hover:scale-110" strokeWidth={2.5} />
           </a>
         </div>
 
-        {/* Enhanced Floating decorative elements */}
-        <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          <div className="absolute top-10 sm:top-20 left-5 sm:left-10 w-16 sm:w-20 lg:w-24 h-16 sm:w-20 lg:w-24 border-2 border-[var(--accent-red)]/15 rounded-full float-animation" style={{ animationDelay: '0s' }} />
-          <div className="absolute bottom-10 sm:bottom-20 right-5 sm:right-10 w-16 sm:w-20 h-16 sm:w-20 bg-gradient-to-br from-[var(--gradient-coral)]/15 to-transparent rounded-xl sm:rounded-2xl float-animation" style={{ animationDelay: '1s' }} />
-          <div className="absolute top-1/2 right-1/4 w-8 sm:w-10 lg:w-12 h-8 sm:w-10 lg:w-12 bg-[var(--accent-red)]/8 rounded-full blur-xl sm:blur-2xl float-animation" style={{ animationDelay: '2s' }} />
-          <div className="absolute top-1/3 left-1/4 w-6 sm:w-8 h-6 sm:w-8 bg-gradient-to-r from-[var(--gradient-gold)]/10 to-transparent rounded-full float-animation" style={{ animationDelay: '3s' }} />
-        </div>
-
       </div>
-
     </section>
-
   )
-
 }
-

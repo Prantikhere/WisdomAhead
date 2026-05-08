@@ -1,73 +1,72 @@
+'use client'
+
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 gsap.registerPlugin(ScrollTrigger)
 
-const marqueeText = 'SOVEREIGN AI \u2014 MEDIA TRANSFORMATION \u2014 OPERATIONAL EXCELLENCE \u2014 PRIVATE INTELLIGENCE \u2014 BOARD-LEVEL STRATEGY \u2014 '
+const marqueeText = 'SOVEREIGN AI — MEDIA TRANSFORMATION — OPERATIONAL EXCELLENCE — PRIVATE INTELLIGENCE — BOARD-LEVEL STRATEGY — '
 
 export default function Marquee() {
-  const track1Ref = useRef<HTMLDivElement>(null)
-  const track2Ref = useRef<HTMLDivElement>(null)
+  const track1Ref  = useRef<HTMLDivElement>(null)
+  const track2Ref  = useRef<HTMLDivElement>(null)
   const sectionRef = useRef<HTMLElement>(null)
 
-  const isMobile = typeof window !== 'undefined' && (window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 768)
+  const isMobile = typeof window !== 'undefined' &&
+    (window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 768)
 
   useEffect(() => {
     if (!track1Ref.current || !track2Ref.current || !sectionRef.current) return
 
-    // On mobile, use CSS animation instead of GSAP for better performance
-    if (isMobile) {
-      gsap.fromTo(sectionRef.current,
-        { opacity: 0, y: 30 },
-        {
-          opacity: 1, y: 0, duration: 0.8, ease: 'power3.out',
-          scrollTrigger: { trigger: sectionRef.current, start: 'top 90%', toggleActions: 'play none none none' },
-        }
-      )
-      return () => {
-        ScrollTrigger.getAll().forEach((t) => {
-          if (t.trigger === sectionRef.current) t.kill()
-        })
-      }
-    }
-
-    // Desktop: GSAP infinite scroll
-    gsap.to(track1Ref.current, {
-      xPercent: -50,
-      ease: 'none',
-      duration: 30,
-      repeat: -1,
-    })
-
-    gsap.to(track2Ref.current, {
-      xPercent: 50,
-      ease: 'none',
-      duration: 25,
-      repeat: -1,
-    })
-
     gsap.fromTo(sectionRef.current,
-      { opacity: 0, y: 30 },
+      { opacity: 0, y: 24 },
       {
         opacity: 1, y: 0, duration: 0.8, ease: 'power3.out',
         scrollTrigger: { trigger: sectionRef.current, start: 'top 90%', toggleActions: 'play none none none' },
       }
     )
 
+    if (isMobile) {
+      return () => {
+        ScrollTrigger.getAll().forEach(t => { if (t.trigger === sectionRef.current) t.kill() })
+      }
+    }
+
+    gsap.to(track1Ref.current, { xPercent: -50, ease: 'none', duration: 30, repeat: -1 })
+    gsap.to(track2Ref.current, { xPercent: 50,  ease: 'none', duration: 25, repeat: -1 })
+
     return () => {
-      ScrollTrigger.getAll().forEach((t) => {
-        if (t.trigger === sectionRef.current) t.kill()
-      })
+      ScrollTrigger.getAll().forEach(t => { if (t.trigger === sectionRef.current) t.kill() })
     }
   }, [isMobile])
 
-  const renderTrack = (reverse: boolean = false) => (
+  const renderTrack = (accent: boolean = false) => (
     <>
-      <span className={`font-serif text-[clamp(48px,8vw,100px)] font-normal whitespace-nowrap select-none ${reverse ? 'opacity-100' : 'opacity-30'}`} style={{ color: reverse ? 'var(--accent-red)' : 'var(--text-tertiary)' }}>
+      <span
+        className="font-serif whitespace-nowrap select-none"
+        style={{
+          fontSize: 'clamp(40px, 7vw, 88px)',
+          fontWeight: 700,
+          color: accent ? 'rgba(200,45,35,0.85)' : 'rgba(200,195,190,0.32)',
+          letterSpacing: '0.04em',
+          fontFamily: '"Georgia", "Times New Roman", serif',
+          fontStyle: accent ? 'italic' : 'normal',
+        }}
+      >
         {marqueeText}
       </span>
-      <span className={`font-serif text-[clamp(48px,8vw,100px)] font-normal whitespace-nowrap select-none ${reverse ? 'opacity-100' : 'opacity-30'}`} style={{ color: reverse ? 'var(--accent-red)' : 'var(--text-tertiary)' }}>
+      <span
+        className="font-serif whitespace-nowrap select-none"
+        style={{
+          fontSize: 'clamp(40px, 7vw, 88px)',
+          fontWeight: 700,
+          color: accent ? 'rgba(200,45,35,0.85)' : 'rgba(200,195,190,0.32)',
+          letterSpacing: '0.04em',
+          fontFamily: '"Georgia", "Times New Roman", serif',
+          fontStyle: accent ? 'italic' : 'normal',
+        }}
+      >
         {marqueeText}
       </span>
     </>
@@ -76,25 +75,38 @@ export default function Marquee() {
   return (
     <section
       ref={sectionRef}
-      className="overflow-hidden py-16 opacity-0"
-      style={{ borderTop: '1px solid rgba(0,0,0,0.06)', borderBottom: '1px solid rgba(0,0,0,0.06)' }}
+      className="overflow-hidden opacity-0 relative"
+      style={{
+        background: 'linear-gradient(180deg, #0a0808 0%, #110c0c 50%, #0a0808 100%)',
+        padding: 'clamp(32px, 5vw, 64px) 0',
+        borderTop:    '1px solid rgba(255,255,255,0.05)',
+        borderBottom: '1px solid rgba(255,255,255,0.05)',
+      }}
     >
-      {/* Track 1 - scrolling left */}
+      {/* Atmosphere */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div style={{
+          position: 'absolute', inset: 0,
+          background: 'radial-gradient(ellipse 70% 80% at 50% 50%, rgba(150,20,20,0.07) 0%, transparent 65%)',
+        }} />
+      </div>
+
+      {/* Track 1 — scrolls left, ghost white */}
       <div
         ref={track1Ref}
-        className="flex whitespace-nowrap mb-4"
+        className="flex whitespace-nowrap mb-3 relative z-10"
         style={{
           width: 'max-content',
           animation: isMobile ? 'marqueeLeft 30s linear infinite' : undefined,
         }}
       >
-        {renderTrack()}
+        {renderTrack(false)}
       </div>
 
-      {/* Track 2 - scrolling right */}
+      {/* Track 2 — scrolls right, red accent */}
       <div
         ref={track2Ref}
-        className="flex whitespace-nowrap"
+        className="flex whitespace-nowrap relative z-10"
         style={{
           width: 'max-content',
           transform: 'translateX(-50%)',
@@ -107,11 +119,11 @@ export default function Marquee() {
       {isMobile && (
         <style>{`
           @keyframes marqueeLeft {
-            0% { transform: translateX(0); }
+            0%   { transform: translateX(0); }
             100% { transform: translateX(-50%); }
           }
           @keyframes marqueeRight {
-            0% { transform: translateX(-50%); }
+            0%   { transform: translateX(-50%); }
             100% { transform: translateX(0); }
           }
         `}</style>

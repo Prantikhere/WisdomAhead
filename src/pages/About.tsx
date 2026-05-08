@@ -1,6 +1,6 @@
 import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
-import GradientBleed from '@/components/GradientBleed'
+// import GradientBleed from '@/components/GradientBleed'
 import PageHeader from '@/sections/about/PageHeader'
 import FirmStory from '@/sections/about/FirmStory'
 import Methodology from '@/sections/about/Methodology'
@@ -11,7 +11,7 @@ export default function About() {
   return (
     <>
       <Navigation />
-      <GradientBleed />
+      {/* <GradientBleed /> */}
       <main className="relative z-[10]">
         <PageHeader />
         <FirmStory />
